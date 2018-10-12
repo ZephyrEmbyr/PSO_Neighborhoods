@@ -5,6 +5,7 @@ class Particle {
 	public double[] position;
 	public double[] velocity;
 	public double pBest;
+	public double[] pBestPosition;
 	private Random rand = new Random();
 
 	double MIN_INIT_SPEED = -3.0;
@@ -14,6 +15,7 @@ class Particle {
 
 		position = new double(dimensions);
 		velocity = new double(dimensions);
+		pBestPosition = new double(dimensions);
 		pBest = Double.MAX_VALUE;
 
 		for (int i = 0; i < dimensions; i++) {
