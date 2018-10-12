@@ -1,7 +1,9 @@
 
 
+
 // A class containing the three test functions we'll use to verify our PSO code
 class TestFunctions {
+
 
 	// Ackley Test Function
 	public static double Ackley(double[] values) {
@@ -49,7 +51,7 @@ class TestFunctions {
 
 	// DELETE THIS
 	public static void tester() {
-		System.out.println("Hello Part 2");
+		System.out.println("Violent Panda is a meany head");
 	}
 
 }
