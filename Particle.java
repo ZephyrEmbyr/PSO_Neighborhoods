@@ -1,5 +1,4 @@
-
-
+import java.util.Random;
 class Particle {
 
 	public double[] position;
@@ -13,9 +12,9 @@ class Particle {
 
 	Particle(int dimensions, double minPos, double maxPos, double minSpeed, double maxSpeed) {
 
-		position = new double(dimensions);
-		velocity = new double(dimensions);
-		pBestPosition = new double(dimensions);
+		position = new double[dimensions];
+		velocity = new double[dimensions];
+		pBestPosition = new double[dimensions];
 		pBest = Double.MAX_VALUE;
 
 		for (int i = 0; i < dimensions; i++) {
@@ -24,7 +23,6 @@ class Particle {
 		}
 
 	}
-
 
 }
 
