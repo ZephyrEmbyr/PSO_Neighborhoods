@@ -1,4 +1,5 @@
 import java.util.*;
+import TestFunctions;
 public class PSO {
 
 	final static int RING_SIZE = 3;
@@ -6,6 +7,8 @@ public class PSO {
 
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
+		// Test function is set through the command line arguments
+		TestFunction.FUNCTION_TO_USE = 0;
 		TestFunctions.tester();
 	}
 
@@ -21,7 +24,7 @@ public class PSO {
 	static int[][] neighborhoods;
 	static int numRandNeighbors = (int)numParticles/2;
 
-    public static void createNeighborHood() {
+    public static void createNeighborhood() {
 
         // int dimensions = 30;
         // double minPos = 16.0;
@@ -60,8 +63,8 @@ public class PSO {
 
     // returns array of neighborhood bests for each particle where the neighborhood is a ring
     public static void findNeighborRing(Particle[] particles) {
-    	
-	neighborhoods = new int[numParticles][RING_SIZE];    
+
+	neighborhoods = new int[numParticles][RING_SIZE];
 	for (int i = 0; i < particles.length; i++) {
 			int priorParticle, curParticle, nextParticle;
     		if (i == 0) {
@@ -84,6 +87,7 @@ public class PSO {
     	}
     }
 
+
     // returns array of neighborhood bests for each particle where the neighborhood is the four
     // closest neighbors orthogonally
     public static void findNeighborVonNeumann(Particle[] particles) {
@@ -103,35 +107,104 @@ public class PSO {
     	}
     }
 
-
-    public static void findNeighborRandom()
+	public static void findNeighborRandom()
+{
+	int numNeighbors = numRandNeighbors;
+	neighborhoods = new int[numParticles][numNeighbors];
+	if(firstTimeRandom || rand.nextDouble() < 0.2)
 	{
-		int numNeighbors = numRandNeighbors;
-		neighborhoods = new int[numParticles][numNeighbors];
-		if(firstTimeRandom || rand.nextDouble() < 0.2)
+		firstTimeRandom = false;
+		Particle[] particles = allParticles.clone();
+		ArrayList<Integer> solution = new ArrayList<Integer>();
+		for(int i = 0; i < numParticles; i++)
 		{
-			firstTimeRandom = false;
-			Particle[] particles = allParticles.clone();
-			ArrayList<Integer> solution = new ArrayList<Integer>();
-			for(int i = 0; i < numParticles; i++)
-			{
-				solution.add(i);
-			}
-			Collections.shuffle(solution);
-
-			for(int j = 0; j < numParticles; j++)
-			{
-				List<Integer> solutionCopy = (ArrayList<Integer>) solution.clone();
-				solutionCopy.remove(new Integer(j));
-				for(int k = 0; k < numNeighbors-1; k++)
-				{
-					neighborhoods[j][k] = solutionCopy.get(k);
-
-				}
-				neighborhoods[j][numNeighbors-1] = j;
-			}
+			solution.add(i);
 		}
-    }
+		Collections.shuffle(solution);
+
+		for(int j = 0; j < numParticles; j++)
+		{
+			List<Integer> solutionCopy = (ArrayList<Integer>) solution.clone();
+			solutionCopy.remove(new Integer(j));
+			for(int k = 0; k < numNeighbors-1; k++)
+			{
+				neighborhoods[j][k] = solutionCopy.get(k);
+
+			}
+			neighborhoods[j][numNeighbors-1] = j;
+		}
+	}
+}
+
+
+	public static void updateNBest(int indexParticle) {
+		double curNBest = allParticles[indexParticle].getNBest();
+
+		// use Ackley
+		if (testFunction == TestFunctions.ACKLEY_NUM) {
+			for (int i = 0; i < neighborhoods[indexParticle].length; i++) {
+				double tempNeighborFitness = Ackley(allParticles[neighborhoods[indexParticle][i]].position);
+				if (tempNeighborFitness < curNBest) {
+					curNBest = tempNeighborFitness;
+				}
+			}
+
+			allParticles[indexParticle].setNBest(curNBest);
+		}
+
+		// use Ackley
+		if (testFunction == TestFunctions.ACKLEY_NUM) {
+			for (int i = 0; i < neighborhoods[indexParticle].length; i++) {
+				double tempNeighborFitness = (allParticles[neighborhoods[indexParticle][i]].position);
+				if (tempNeighborFitness < curNBest) {
+					curNBest = tempNeighborFitness;
+				}
+			}
+
+			allParticles[indexParticle].setNBest(curNBest);
+		}
+
+		// use Ackley
+		if (testFunction == TestFunctions.ACKLEY_NUM) {
+			for (int i = 0; i < neighborhoods[indexParticle].length; i++) {
+				double tempNeighborFitness = Ackley(allParticles[neighborhoods[indexParticle][i]].position);
+				if (tempNeighborFitness < curNBest) {
+					curNBest = tempNeighborFitness;
+				}
+			}
+
+			allParticles[indexParticle].setNBest(curNBest);
+		}
+
+	}
+
+
+	public static void updatePBest(int index) {
+		double curBest = particle.getPBest();
+		double potentialBest = testFunction(allParticles[index]);
+		// // use Ackley
+		// if (testFunction == TestFunctions.ACKLEY_NUM) {
+		// 	potentialBest = Ackley(allParticles[index].position);
+		// }
+		// // use Rosenbrock
+		// else if (testFunction == TestFunctions.ROSENBROCK_NUM) {
+		// 	potentialBest = Rosenbrock(allParticles[index].position);
+		// }
+		// // use Rastrigin
+		// else if (testFunction == TestFunctions.RASTRIGIN_NUM) {
+		// 	potentialBest = Rastrigin(allParticles[index].position);
+		// }
+
+
+
+		// should never reach this
+		// else {
+		// 	System.out.println("Error: Didn't calculate the potential best");
+		// }
+
+
+	}
+
 
 
 }

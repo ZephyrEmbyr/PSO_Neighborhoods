@@ -4,6 +4,7 @@ class Particle {
 	public double[] position;
 	public double[] velocity;
 	public double pBest;
+	public double nBest;
 	public double[] pBestPosition;
 	private Random rand = new Random();
 
@@ -26,6 +27,24 @@ class Particle {
 
 	public double getPBest() {
 		return pBest;
+	}
+
+	public void setPBest(double best) {
+		pBest = best;
+	}
+
+	public double getNBest() {
+		return nBest;
+	}
+
+	public void setNBest(double best) {
+		nBest = best;
+	}
+
+	public void setPBestPosition(double[] pos) {
+		for (int i = 0; i < pBestPosition.length; i++) {
+			pBestPosition[i]
+		}
 	}
 
 }

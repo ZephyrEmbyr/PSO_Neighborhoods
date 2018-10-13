@@ -2,10 +2,41 @@
 
 
 // A class containing the three test functions we'll use to verify our PSO code
-class TestFunctions {
+public class TestFunctions {
+
+	final static int FUNCTION_TO_USE;
+
+	final static int ACKLEY_NUM = 1;
+	final static int ROSENBROCK_NUM = 2;
+	final static int RASTRIGIN_NUM = 3;
+
+	public static double testFunction(Particle particle) {
+		double potentialBest;
+		// use Ackley
+		if (FUNCTION_TO_USE == TestFunctions.ACKLEY_NUM) {
+			potentialBest = Ackley(allParticles[index].position);
+		}
+		// use Rosenbrock
+		else if (FUNCTION_TO_USE == TestFunctions.ROSENBROCK_NUM) {
+			potentialBest = Rosenbrock(allParticles[index].position);
+		}
+		// use Rastrigin
+		else if (FUNCTION_TO_USE == TestFunctions.RASTRIGIN_NUM) {
+			potentialBest = Rastrigin(allParticles[index].position);
+		}
+		// should never reach this
+		else {
+			System.out.println("Error: Didn't calculate the potential best");
+		}
+		if (potentialBest < curBest) {
+			allParticles[index].setPBest(potentialBest);
+			allParticles[index].
+
+		}
+	}
 
 
-	// Ackley Test Function
+	// Ackley Test Function. Int value = 1
 	public static double Ackley(double[] values) {
 
 		double a = 20.0;
@@ -25,7 +56,7 @@ class TestFunctions {
 	}
 
 
-	// Rosenbrock Test Function
+	// Rosenbrock Test Function. Int value = 2
 	public static double Rosenbrock(double[] values) {
 
 		double total = 0.0;
@@ -36,7 +67,7 @@ class TestFunctions {
 	}
 
 
-	// Rastrigin Test Function
+	// Rastrigin Test Function. Int value = 3
 	public static double Rastrigin(double[] values) {
 
 		double total = 10.0 * values.length;
@@ -51,7 +82,7 @@ class TestFunctions {
 
 	// DELETE THIS
 	public static void tester() {
-		System.out.println("no u");
+		System.out.println("ALEX GENTLE IS A BUMBO");
 	}
 
 }
