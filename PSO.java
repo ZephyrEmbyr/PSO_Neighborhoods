@@ -59,9 +59,9 @@ public class PSO {
 
 
     // returns array of neighborhood bests for each particle where the neighborhood is a ring
-    public static double[] findNeighborRing(Particle[] particles) {
+    public static void findNeighborRing(Particle[] particles) {
+    	
 	neighborhoods = new int[numParticles][RING_SIZE];    
-
 	for (int i = 0; i < particles.length; i++) {
 			double priorParticle, curParticle, nextParticle;
     		if (i == 0) {
@@ -82,12 +82,11 @@ public class PSO {
     		int[] neighbors   = {priorParticle, curParticle, nextParticle};
     		neighborhoods[i] = neighbors;
     	}
-    	return neighborhoods;
     }
 
     // returns array of neighborhood bests for each particle where the neighborhood is the four
     // closest neighbors orthogonally
-    public static double[] findNeighborVonNeumann(Particle[] particles) {
+    public static findNeighborVonNeumann(Particle[] particles) {
 
     	neighborhoods = new int[numParticles][VON_NEUMANN_SIZE];
     	int cols = (int) Math.ceil(Math.sqrt(numParticles));
@@ -102,7 +101,6 @@ public class PSO {
     		int[] neighbors   = {curParticle, aboveParticle, belowParticle, leftParticle, rightParticle};
     		neighborhoods[i] = neighbors;
     	}
-    	return neighborhoods;
     }
 
 
