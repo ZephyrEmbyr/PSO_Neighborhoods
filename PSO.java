@@ -1,8 +1,8 @@
-
+import java.util.*;
 public class PSO {
 
-	final int RING_SIZE = 3;
-	final int VON_NEUMANN_SIZE = 5;
+	final static int RING_SIZE = 3;
+	final static int VON_NEUMANN_SIZE = 5;
 
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
@@ -17,7 +17,7 @@ public class PSO {
 	static int numParticles = 20;
 	static Particle[] allParticles;
 	static boolean firstTimeRandom = true;
-	private Random rand = new Random();
+	private static Random rand = new Random();
 	static int[][] neighborhoods;
 	static int numRandNeighbors = (int)numParticles/2;
 
@@ -63,7 +63,7 @@ public class PSO {
     	
 	neighborhoods = new int[numParticles][RING_SIZE];    
 	for (int i = 0; i < particles.length; i++) {
-			double priorParticle, curParticle, nextParticle;
+			int priorParticle, curParticle, nextParticle;
     		if (i == 0) {
     			priorParticle = particles.length - 1;
     			curParticle   = i;
@@ -86,7 +86,7 @@ public class PSO {
 
     // returns array of neighborhood bests for each particle where the neighborhood is the four
     // closest neighbors orthogonally
-    public static findNeighborVonNeumann(Particle[] particles) {
+    public static void findNeighborVonNeumann(Particle[] particles) {
 
     	neighborhoods = new int[numParticles][VON_NEUMANN_SIZE];
     	int cols = (int) Math.ceil(Math.sqrt(numParticles));
@@ -107,21 +107,21 @@ public class PSO {
     public static void findNeighborRandom()
 	{
 		int numNeighbors = numRandNeighbors;
-		neighborhoods = new int[numParticles][numNeighbors]
+		neighborhoods = new int[numParticles][numNeighbors];
 		if(firstTimeRandom || rand.nextDouble() < 0.2)
 		{
 			firstTimeRandom = false;
 			Particle[] particles = allParticles.clone();
-			List<Integer> solution = new ArrayList<>();
+			ArrayList<Integer> solution = new ArrayList<Integer>();
 			for(int i = 0; i < numParticles; i++)
 			{
 				solution.add(i);
 			}
 			Collections.shuffle(solution);
 
-			for(int j = 0; j < numParticles.length; j++)
+			for(int j = 0; j < numParticles; j++)
 			{
-				List<Integer> solutionCopy = solution.copy();
+				List<Integer> solutionCopy = (ArrayList<Integer>) solution.clone();
 				solutionCopy.remove(new Integer(j));
 				for(int k = 0; k < numNeighbors-1; k++)
 				{
