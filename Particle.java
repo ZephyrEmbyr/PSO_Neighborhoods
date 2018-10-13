@@ -24,5 +24,9 @@ class Particle {
 
 	}
 
+	public static double getPBest() {
+		return pBest;
+	}
+
 }
 
