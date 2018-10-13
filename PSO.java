@@ -1,6 +1,9 @@
 
 public class PSO {
 
+	final int RING_SIZE = 3;
+	final int VON_NEUMANN_SIZE = 5;
+
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
 		TestFunctions.tester();
@@ -36,17 +39,6 @@ public class PSO {
         }
     }
 
-    // returns minimum value in an array of doubles
-    public static double getMin(double[] values) {
-    	double curMin = values[0];
-    	for (int i = 1; i < values.length; i++) {
-    		if (values[i] < curMin) {
-    			curMin = values[i];
-    		}
-    	}
-    	return curMin;
-    }
-
 
     // returns array of neighborhood bests for each particle (each will be global best)
     public static double[] findNeighborGlobal(Particle[] particles) {
@@ -68,47 +60,49 @@ public class PSO {
 
     // returns array of neighborhood bests for each particle where the neighborhood is a ring
     public static double[] findNeighborRing(Particle[] particles) {
-       	double[] neighborhoodBests = new double[particles.length];
-    	for (int i = 0; i < particles.length; i++) {
+	neighborhoods = new int[numParticles][RING_SIZE];    
+
+	for (int i = 0; i < particles.length; i++) {
 			double priorParticle, curParticle, nextParticle;
     		if (i == 0) {
-    			priorParticle = particles[particles.length-1].getPBest();
-    			curParticle   = particles[i].getPBest();
-    			nextParticle  = particles[i + 1].getPBest();
+    			priorParticle = particles.length - 1;
+    			curParticle   = i;
+    			nextParticle  = i + 1;
     		}
     		else if (i == particles.length - 1) {
-    			priorParticle = particles[i - 1].getPBest();
-    			curParticle   = particles[i].getPBest();
-    			nextParticle  = particles[0].getPBest();
+    			priorParticle = i - 1;
+    			curParticle   = i;
+    			nextParticle  = 0;
     		}
     		else {
-    			priorParticle = particles[i - 1].getPBest();
-    			curParticle   = particles[i].getPBest();
-    			nextParticle  = particles[i + 1].getPBest();
+    			priorParticle = i - 1;
+    			curParticle   = i;
+    			nextParticle  = i + 1;
     		}
-    		double bestNeighbor = Math.min(Math.min(priorParticle, curParticle), nextParticle);
-    		neighborhoodBests[i] = bestNeighbor;
+    		int[] neighbors   = {priorParticle, curParticle, nextParticle};
+    		neighborhoods[i] = neighbors;
     	}
-    	return neighborhoodBests;
+    	return neighborhoods;
     }
 
     // returns array of neighborhood bests for each particle where the neighborhood is the four
     // closest neighbors orthogonally
     public static double[] findNeighborVonNeumann(Particle[] particles) {
-    	// int numParticles = particles.length;
+
+    	neighborhoods = new int[numParticles][VON_NEUMANN_SIZE];
     	int cols = (int) Math.ceil(Math.sqrt(numParticles));
     	// int rows = (int) numParticles / cols
-       	double[] neighborhoodBests = new double[particles.length];
+
     	for (int i = 0; i < numParticles; i++) {
-    		double aboveParticle = particles[((i - cols + numParticles) % numParticles)].getPBest();
-    		double belowParticle = particles[((i + cols) % numParticles)].getPBest();
-    		double leftParticle  = particles[((i - 1 + numParticles) % numParticles)].getPBest();
-    		double rightParticle = particles[((i + 1) % numParticles)].getPBest();
-    		double curParticle   = particles[i].getPBest();
-    		double[] neighbors   = {aboveParticle, belowParticle, leftParticle, rightParticle, curParticle};
-    		neighborhoodBests[i] = getMin(neighbors);
+    		int curParticle   = i;
+    		int aboveParticle = (i - cols + numParticles) % numParticles;
+    		int belowParticle = (i + cols) % numParticles;
+    		int leftParticle  = (i - 1 + numParticles) % numParticles;
+    		int rightParticle = (i + 1) % numParticles;
+    		int[] neighbors   = {curParticle, aboveParticle, belowParticle, leftParticle, rightParticle};
+    		neighborhoods[i] = neighbors;
     	}
-    	return neighborhoodBests;
+    	return neighborhoods;
     }
 
 

@@ -51,7 +51,7 @@ class TestFunctions {
 
 	// DELETE THIS
 	public static void tester() {
-		System.out.println("test function");
+		System.out.println("no u");
 	}
 
 }
