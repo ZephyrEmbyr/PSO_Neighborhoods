@@ -3,22 +3,33 @@ public class PSO {
 
 	public static void main(String[] args) {
 		System.out.println("Hello World!");
-		// TestFunctions.tester();
+		TestFunctions.tester();
 	}
 
+	static int dimensions = 30;
+	static double minPos = 16.0;
+	static double maxPos = 32.0;
+	static double maxSpeed = 4.0;
+	static double minSpeed = -2.0;
+	static int numParticles = 20;
+	static Particle[] allParticles;
+	static boolean firstTimeRandom = true;
+	private Random rand = new Random();
+	static int[][] neighborhoods;
+	static int numRandNeighbors = (int)numParticles/2;
 
     public static void createNeighborHood() {
-        
-        int dimensions = 30;
-        double minPos = 16.0;
-        double maxPos = 32.0;
-        double maxSpeed = 4.0;
-        double minSpeed = -2.0;
-        int numParticles = 20;
-        Particle[] allParticles;
+
+        // int dimensions = 30;
+        // double minPos = 16.0;
+        // double maxPos = 32.0;
+        // double maxSpeed = 4.0;
+        // double minSpeed = -2.0;
+        // int numParticles = 20;
+        // Particle[] allParticles;
 
 		allParticles = new Particle[numParticles];
-        
+
         for (int i = 0; i < numParticles; i++) {
             Particle particle = new Particle(dimensions, minPos, maxPos, minSpeed, maxSpeed);
             allParticles[i] = particle;
@@ -59,20 +70,21 @@ public class PSO {
     public static double[] findNeighborRing(Particle[] particles) {
        	double[] neighborhoodBests = new double[particles.length];
     	for (int i = 0; i < particles.length; i++) {
+			double priorParticle, curParticle, nextParticle;
     		if (i == 0) {
-    			double priorParticle = particles[particles.length-1].getPBest();
-    			double curParticle   = particles[i].getPBest();
-    			double nextParticle  = particles[i + 1].getPBest();
+    			priorParticle = particles[particles.length-1].getPBest();
+    			curParticle   = particles[i].getPBest();
+    			nextParticle  = particles[i + 1].getPBest();
     		}
     		else if (i == particles.length - 1) {
-    			double priorParticle = particles[i - 1].getPBest();
-    			double curParticle   = particles[i].getPBest();
-    			double nextParticle  = particles[0].getPBest();
+    			priorParticle = particles[i - 1].getPBest();
+    			curParticle   = particles[i].getPBest();
+    			nextParticle  = particles[0].getPBest();
     		}
     		else {
-    			double priorParticle = particles[i - 1].getPBest();
-    			double curParticle   = particles[i].getPBest();
-    			double nextParticle  = particles[i + 1].getPBest();
+    			priorParticle = particles[i - 1].getPBest();
+    			curParticle   = particles[i].getPBest();
+    			nextParticle  = particles[i + 1].getPBest();
     		}
     		double bestNeighbor = Math.min(Math.min(priorParticle, curParticle), nextParticle);
     		neighborhoodBests[i] = bestNeighbor;
@@ -83,7 +95,7 @@ public class PSO {
     // returns array of neighborhood bests for each particle where the neighborhood is the four
     // closest neighbors orthogonally
     public static double[] findNeighborVonNeumann(Particle[] particles) {
-    	numParticles = particles.length;
+    	// int numParticles = particles.length;
     	int cols = (int) Math.ceil(Math.sqrt(numParticles));
     	// int rows = (int) numParticles / cols
        	double[] neighborhoodBests = new double[particles.length];
@@ -93,15 +105,41 @@ public class PSO {
     		double leftParticle  = particles[((i - 1 + numParticles) % numParticles)].getPBest();
     		double rightParticle = particles[((i + 1) % numParticles)].getPBest();
     		double curParticle   = particles[i].getPBest();
-    		double[] neighbors   = {aboveParticle, belowParticle, leftParticle, rightParticle, curParticle}
+    		double[] neighbors   = {aboveParticle, belowParticle, leftParticle, rightParticle, curParticle};
     		neighborhoodBests[i] = getMin(neighbors);
     	}
     	return neighborhoodBests;
     }
-    
 
-    public static void findNeighborRandom() {
+
+    public static void findNeighborRandom()
+	{
+		int numNeighbors = numRandNeighbors;
+		neighborhoods = new int[numParticles][numNeighbors]
+		if(firstTimeRandom || rand.nextDouble() < 0.2)
+		{
+			firstTimeRandom = false;
+			Particle[] particles = allParticles.clone();
+			List<Integer> solution = new ArrayList<>();
+			for(int i = 0; i < numParticles; i++)
+			{
+				solution.add(i);
+			}
+			Collections.shuffle(solution);
+
+			for(int j = 0; j < numParticles.length; j++)
+			{
+				List<Integer> solutionCopy = solution.copy();
+				solutionCopy.remove(new Integer(j));
+				for(int k = 0; k < numNeighbors-1; k++)
+				{
+					neighborhoods[j][k] = solutionCopy.get(k);
+
+				}
+				neighborhoods[j][numNeighbors-1] = j;
+			}
+		}
     }
 
-	
+
 }

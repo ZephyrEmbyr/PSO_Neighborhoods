@@ -7,8 +7,8 @@ class Particle {
 	public double[] pBestPosition;
 	private Random rand = new Random();
 
-	double MIN_INIT_SPEED = -3.0;
-	double MAX_INIT_SPEED = 3.0;
+	// double MIN_INIT_SPEED = -3.0;
+	// double MAX_INIT_SPEED = 3.0;
 
 	Particle(int dimensions, double minPos, double maxPos, double minSpeed, double maxSpeed) {
 
@@ -24,9 +24,8 @@ class Particle {
 
 	}
 
-	public static double getPBest() {
+	public double getPBest() {
 		return pBest;
 	}
 
 }
-

@@ -51,8 +51,7 @@ class TestFunctions {
 
 	// DELETE THIS
 	public static void tester() {
-		System.out.println("Violent Panda is a meany head");
+		System.out.println("test function");
 	}
 
 }
-
