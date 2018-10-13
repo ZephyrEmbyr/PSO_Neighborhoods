@@ -6,6 +6,7 @@ class Particle {
 	public double pBest;
 	public double nBest;
 	public double[] pBestPosition;
+	public double[] nBestPosition;
 	private Random rand = new Random();
 
 	// double MIN_INIT_SPEED = -3.0;

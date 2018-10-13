@@ -181,25 +181,25 @@ public class PSO {
 			U_2[i] = phi_2 * rand.nextDouble();
 		}
 
-		double[] temp1 = product(U_1, sum(particle.position, negate(particle.getPBest)));
-		double[] temp2 = product(U_2, sum(particle.position, negate(particle.getNBest)));
+		double[] temp1 = product(U_1, sum(particle.position, negate(particle.pBestPosition)));
+		double[] temp2 = product(U_2, sum(particle.position, negate(particle.nBestPosition)));
 
 		double[] updatedVelocity = product(chiArray, sum(particle.velocity, sum(temp1, temp2)));
 
 		particle.velocity = updatedVelocity;
 	}
 
-	public static void sum(double[] a, double[] b)
+	public static double[] sum(double[] a, double[] b)
 	{
 		double[] sum = new double[a.length];
 		for(int k = 0; k < a.length; k++)
 		{
 			sum[k] = a[k]+b[k];
 		}
-		return product;
+		return sum;
 	}
 
-	public static void negate(double[] a)
+	public static double[] negate(double[] a)
 	{
 		double[] negation = new double[a.length];
 		for(int k = 0; k < a.length; k++)
@@ -209,7 +209,7 @@ public class PSO {
 		return negation;
 	}
 
-	public static void product(double[] a, double[] b)
+	public static double[] product(double[] a, double[] b)
 	{
 		double[] product = new double[a.length];
 		for(int k = 0; k < a.length; k++)
