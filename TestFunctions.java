@@ -4,35 +4,33 @@
 // A class containing the three test functions we'll use to verify our PSO code
 public class TestFunctions {
 
-	final static int FUNCTION_TO_USE;
+	public static int FUNCTION_TO_USE;
 
 	final static int ACKLEY_NUM = 1;
 	final static int ROSENBROCK_NUM = 2;
 	final static int RASTRIGIN_NUM = 3;
 
 	public static double testFunction(Particle particle) {
-		double potentialBest;
+		double fitness;
 		// use Ackley
 		if (FUNCTION_TO_USE == TestFunctions.ACKLEY_NUM) {
-			potentialBest = Ackley(allParticles[index].position);
+			fitness = Ackley(particle.position);
 		}
 		// use Rosenbrock
 		else if (FUNCTION_TO_USE == TestFunctions.ROSENBROCK_NUM) {
-			potentialBest = Rosenbrock(allParticles[index].position);
+			fitness = Rosenbrock(particle.position);
 		}
 		// use Rastrigin
 		else if (FUNCTION_TO_USE == TestFunctions.RASTRIGIN_NUM) {
-			potentialBest = Rastrigin(allParticles[index].position);
+			fitness = Rastrigin(particle.position);
 		}
 		// should never reach this
 		else {
-			System.out.println("Error: Didn't calculate the potential best");
+			System.out.println("Error: Didn't calculate the fitness");
+			fitness = 100;
 		}
-		if (potentialBest < curBest) {
-			allParticles[index].setPBest(potentialBest);
-			allParticles[index].
+		return fitness;
 
-		}
 	}
 
 

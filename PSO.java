@@ -1,14 +1,15 @@
 import java.util.*;
-import TestFunctions;
+// import TestFunctions.*;
 public class PSO {
 
 	final static int RING_SIZE = 3;
 	final static int VON_NEUMANN_SIZE = 5;
 
 	public static void main(String[] args) {
+		System.out.println(args[0]);
 		System.out.println("Hello World!");
 		// Test function is set through the command line arguments
-		TestFunction.FUNCTION_TO_USE = 0;
+		TestFunctions.FUNCTION_TO_USE = 0;
 		TestFunctions.tester();
 	}
 
@@ -24,6 +25,11 @@ public class PSO {
 	static int[][] neighborhoods;
 	static int numRandNeighbors = (int)numParticles/2;
 
+	static double Chi = 0.7298;
+	static double[] chiArray;
+	static double phi_1 = 2.05;
+	static double phi_2 = 2.05;
+
     public static void createNeighborhood() {
 
         // int dimensions = 30;
@@ -34,12 +40,17 @@ public class PSO {
         // int numParticles = 20;
         // Particle[] allParticles;
 
+		chiArray = new double[dimensions];
+		Arrays.fill(chiArray, Chi);
+
 		allParticles = new Particle[numParticles];
 
         for (int i = 0; i < numParticles; i++) {
             Particle particle = new Particle(dimensions, minPos, maxPos, minSpeed, maxSpeed);
             allParticles[i] = particle;
         }
+
+
     }
 
 
@@ -140,71 +151,81 @@ public class PSO {
 	public static void updateNBest(int indexParticle) {
 		double curNBest = allParticles[indexParticle].getNBest();
 
-		// use Ackley
-		if (testFunction == TestFunctions.ACKLEY_NUM) {
-			for (int i = 0; i < neighborhoods[indexParticle].length; i++) {
-				double tempNeighborFitness = Ackley(allParticles[neighborhoods[indexParticle][i]].position);
-				if (tempNeighborFitness < curNBest) {
-					curNBest = tempNeighborFitness;
-				}
+		for (int neighborIndex:neighborhoods[indexParticle]) {
+			double tempNeighborFitness = TestFunctions.testFunction(allParticles[neighborIndex]);
+			if (tempNeighborFitness < curNBest) {
+				curNBest = tempNeighborFitness;
 			}
-
-			allParticles[indexParticle].setNBest(curNBest);
 		}
 
-		// use Ackley
-		if (testFunction == TestFunctions.ACKLEY_NUM) {
-			for (int i = 0; i < neighborhoods[indexParticle].length; i++) {
-				double tempNeighborFitness = (allParticles[neighborhoods[indexParticle][i]].position);
-				if (tempNeighborFitness < curNBest) {
-					curNBest = tempNeighborFitness;
-				}
-			}
-
-			allParticles[indexParticle].setNBest(curNBest);
-		}
-
-		// use Ackley
-		if (testFunction == TestFunctions.ACKLEY_NUM) {
-			for (int i = 0; i < neighborhoods[indexParticle].length; i++) {
-				double tempNeighborFitness = Ackley(allParticles[neighborhoods[indexParticle][i]].position);
-				if (tempNeighborFitness < curNBest) {
-					curNBest = tempNeighborFitness;
-				}
-			}
-
-			allParticles[indexParticle].setNBest(curNBest);
-		}
-
+		allParticles[indexParticle].setNBest(curNBest);
 	}
 
 
 	public static void updatePBest(int index) {
-		double curBest = particle.getPBest();
-		double potentialBest = testFunction(allParticles[index]);
-		// // use Ackley
-		// if (testFunction == TestFunctions.ACKLEY_NUM) {
-		// 	potentialBest = Ackley(allParticles[index].position);
-		// }
-		// // use Rosenbrock
-		// else if (testFunction == TestFunctions.ROSENBROCK_NUM) {
-		// 	potentialBest = Rosenbrock(allParticles[index].position);
-		// }
-		// // use Rastrigin
-		// else if (testFunction == TestFunctions.RASTRIGIN_NUM) {
-		// 	potentialBest = Rastrigin(allParticles[index].position);
-		// }
-
-
-
-		// should never reach this
-		// else {
-		// 	System.out.println("Error: Didn't calculate the potential best");
-		// }
-
+		double curBest = allParticles[index].getPBest();
+		double potentialBest = TestFunctions.testFunction(allParticles[index]);
+		if (potentialBest < curBest) {
+			allParticles[index].setPBest(potentialBest);
+			allParticles[index].setPBestPosition(allParticles[index].position);
+		}
 
 	}
 
+	public static void updateVelocity(Particle particle)
+	{
+		double[] U_1 = new double[dimensions];
+		double[] U_2 = new double[dimensions];
+		for (int i = 0; i < dimensions; i++) {
+			U_1[i] = phi_1 * rand.nextDouble();
+			U_2[i] = phi_2 * rand.nextDouble();
+		}
 
+		double[] temp1 = product(U_1, sum(particle.position, negate(particle.getPBest)));
+		double[] temp2 = product(U_2, sum(particle.position, negate(particle.getNBest)));
+
+		double[] updatedVelocity = product(chiArray, sum(particle.velocity, sum(temp1, temp2)));
+
+		particle.velocity = updatedVelocity;
+	}
+
+	public static void sum(double[] a, double[] b)
+	{
+		double[] sum = new double[a.length];
+		for(int k = 0; k < a.length; k++)
+		{
+			sum[k] = a[k]+b[k];
+		}
+		return product;
+	}
+
+	public static void negate(double[] a)
+	{
+		double[] negation = new double[a.length];
+		for(int k = 0; k < a.length; k++)
+		{
+			negation[k] = -1*a[k];
+		}
+		return negation;
+	}
+
+	public static void product(double[] a, double[] b)
+	{
+		double[] product = new double[a.length];
+		for(int k = 0; k < a.length; k++)
+		{
+			product[k] = a[k]*b[k];
+		}
+		return product;
+	}
+
+	public static void run()
+	{
+		//update velocity
+		//update position
+		//evaluate function at new position
+		//update personal best
+		//update neighborhood bests
+	}
 
 }

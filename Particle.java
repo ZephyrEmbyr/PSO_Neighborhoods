@@ -43,7 +43,7 @@ class Particle {
 
 	public void setPBestPosition(double[] pos) {
 		for (int i = 0; i < pBestPosition.length; i++) {
-			pBestPosition[i]
+			pBestPosition[i] = pos[i];
 		}
 	}
 
