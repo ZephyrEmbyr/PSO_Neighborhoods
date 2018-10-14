@@ -2,7 +2,8 @@
 
 
 // A class containing the three test functions we'll use to verify our PSO code
-public class TestFunctions {
+public class TestFunctions
+{
 
 	public static int FUNCTION_TO_USE;
 
@@ -10,23 +11,29 @@ public class TestFunctions {
 	final static int ROSENBROCK_NUM = 2;
 	final static int RASTRIGIN_NUM = 3;
 
-	public static double testFunction(Particle particle) {
+	public static double testFunction(Particle particle)
+	{
 		double fitness;
 		// use Ackley
-		if (FUNCTION_TO_USE == TestFunctions.ACKLEY_NUM) {
+		if (FUNCTION_TO_USE == TestFunctions.ACKLEY_NUM)
+		{
 			fitness = Ackley(particle.position);
 		}
 		// use Rosenbrock
-		else if (FUNCTION_TO_USE == TestFunctions.ROSENBROCK_NUM) {
+		else if (FUNCTION_TO_USE == TestFunctions.ROSENBROCK_NUM)
+		{
 			fitness = Rosenbrock(particle.position);
 		}
 		// use Rastrigin
-		else if (FUNCTION_TO_USE == TestFunctions.RASTRIGIN_NUM) {
+		else if (FUNCTION_TO_USE == TestFunctions.RASTRIGIN_NUM)
+		{
 			fitness = Rastrigin(particle.position);
 		}
 		// should never reach this
-		else {
+		else
+		{
 			System.out.println("Error: Didn't calculate the fitness");
+			System.out.println(FUNCTION_TO_USE);
 			fitness = 100;
 		}
 		return fitness;
@@ -35,15 +42,16 @@ public class TestFunctions {
 
 
 	// Ackley Test Function. Int value = 1
-	public static double Ackley(double[] values) {
-
+	public static double Ackley(double[] values)
+	{
 		double a = 20.0;
 		double b = 0.2;
 		double c = 2.0 * Math.PI;
 
 		double firstSum = 0.0;
 		double secondSum = 0.0;
-		for (int i = 0; i < values.length; i++) {
+		for (int i = 0; i < values.length; i++)
+		{
 			firstSum += values[i] * values[i];
 			secondSum += Math.cos(c * values[i]);
 		}
@@ -55,8 +63,8 @@ public class TestFunctions {
 
 
 	// Rosenbrock Test Function. Int value = 2
-	public static double Rosenbrock(double[] values) {
-
+	public static double Rosenbrock(double[] values)
+	{
 		double total = 0.0;
 		for (int i = 0; i < values.length - 1; i++) {
 			total += 100.0 * Math.pow(values[i+1] - values[i] * values[i], 2.0) + Math.pow(values[i] - 1, 2.0);
@@ -64,10 +72,9 @@ public class TestFunctions {
 		return total;
 	}
 
-
 	// Rastrigin Test Function. Int value = 3
-	public static double Rastrigin(double[] values) {
-
+	public static double Rastrigin(double[] values)
+	{
 		double total = 10.0 * values.length;
 
 		for (int i = 0; i < values.length; i++) {
@@ -76,11 +83,4 @@ public class TestFunctions {
 
 		return total;
 	}
-
-
-	// DELETE THIS
-	public static void tester() {
-		System.out.println("ALEX GENTLE IS A BUMBO");
-	}
-
 }

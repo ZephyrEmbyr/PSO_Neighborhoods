@@ -22,10 +22,19 @@ class Best
     // no-argument constructor
     public Best()
     {
-        position = new double[50];
-        fitness = 100;
+        generation = 0;
+        fitness = Double.MAX_VALUE;
         startTime = System.currentTimeMillis();
         endTime = startTime;
+    }
+
+    public double[] getPos()
+    {
+        return position;
+    }
+
+    public int getGen() {
+        return generation;
     }
 
     public void setGen(int gen)
@@ -44,6 +53,11 @@ class Best
     {
         fitness = fit;
         endTime = System.currentTimeMillis();
+    }
+
+    public double getFit()
+    {
+        return fitness;
     }
 
     public long getTimeElapsed()

@@ -12,40 +12,56 @@ class Particle {
 	// double MIN_INIT_SPEED = -3.0;
 	// double MAX_INIT_SPEED = 3.0;
 
-	Particle(int dimensions, double minPos, double maxPos, double minSpeed, double maxSpeed) {
-
+	Particle(int dimensions, double minPos, double maxPos, double minSpeed, double maxSpeed)
+	{
 		position = new double[dimensions];
 		velocity = new double[dimensions];
 		pBestPosition = new double[dimensions];
 		pBest = Double.MAX_VALUE;
+		nBest = Double.MAX_VALUE;
+		nBestPosition = new double[dimensions];
 
-		for (int i = 0; i < dimensions; i++) {
-			position[i] = minPos * rand.nextDouble() + (maxPos - minPos);
+		for (int i = 0; i < dimensions; i++)
+		{
+			position[i] = minPos   * rand.nextDouble() + (maxPos   - minPos);
 			velocity[i] = minSpeed * rand.nextDouble() + (maxSpeed - minSpeed);
 		}
 
 	}
 
-	public double getPBest() {
+	public double[] getPBestPosition()
+	{
+		return pBestPosition;
+	}
+
+	public double getPBest()
+	{
 		return pBest;
 	}
 
-	public void setPBest(double best) {
+	public void setPBest(double best)
+	{
 		pBest = best;
 	}
 
-	public double getNBest() {
+	public double getNBest()
+	{
 		return nBest;
 	}
 
-	public void setNBest(double best) {
+	public void setNBest(double best)
+	{
 		nBest = best;
 	}
 
-	public void setPBestPosition(double[] pos) {
-		for (int i = 0; i < pBestPosition.length; i++) {
-			pBestPosition[i] = pos[i];
-		}
+	public void setNBestPosition(double[] pos)
+	{
+		nBestPosition = pos;
+	}
+
+	public void setPBestPosition(double[] pos)
+	{
+		pBestPosition = pos;
 	}
 
 }
