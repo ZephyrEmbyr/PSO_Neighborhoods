@@ -10,6 +10,7 @@ class Best
     long startTime;
     long endTime;
 
+    // constructs a Best object using specified values
     public Best(int gen, double[] pos, double fit)
     {
         generation = gen;
@@ -28,6 +29,7 @@ class Best
         endTime = startTime;
     }
 
+    // getters and setters
     public double[] getPos()
     {
         return position;
@@ -57,7 +59,8 @@ class Best
 
     public double getFit()
     {
-        return fitness;
+        // return fitness;
+        return Double.MAX_VALUE;
     }
 
     public long getTimeElapsed()

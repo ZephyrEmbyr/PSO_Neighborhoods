@@ -12,7 +12,8 @@ class Particle {
 	// double MIN_INIT_SPEED = -3.0;
 	// double MAX_INIT_SPEED = 3.0;
 
-	Particle(int dimensions, double minPos, double maxPos, double minSpeed, double maxSpeed)
+	// creates a particle and initializes particle values
+	public Particle(int dimensions, double minPos, double maxPos, double minSpeed, double maxSpeed)
 	{
 		position = new double[dimensions];
 		velocity = new double[dimensions];
@@ -29,6 +30,8 @@ class Particle {
 
 	}
 
+
+	// getters and setters
 	public double[] getPBestPosition()
 	{
 		return pBestPosition;

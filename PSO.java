@@ -7,6 +7,8 @@ public class PSO
 	final static int RING_SIZE = 3;
 	final static int VON_NEUMANN_SIZE = 5;
 
+	static int flag = 0;
+
 	static int dimensions = 30;
 	static double minPos = 16.0;
 	static double maxPos = 32.0;
@@ -26,6 +28,9 @@ public class PSO
 	static double phi_2 = 2.05;
 
 
+	// main function that gets the command line arguments and runs the PSO
+	// algorithm for the number of iterations specified. Then, it prints out
+	// all of the final information of the program's results
 	public static void main(String[] args)
 	{
 		/* command line arguments:
@@ -75,12 +80,30 @@ public class PSO
 			{
 				//evaluate function at new position
 				//update personal best
-				if(updatePBest(k) && allParticles[k].getPBest() < bestFound.getFit())
+
+				String temp = updatePBest(k);
+				if(flag == 1)
 				{
+					out.println(temp);
+				}
+
+
+				// if(updatePBest(k) && allParticles[k].getPBest() < bestFound.getFit())
+				if(temp.equals("true") && allParticles[k].getPBest() < bestFound.getFit())
+				{
+					out.println("does it ever get here");
 					bestFound.setFit(allParticles[k].getPBest());
 					bestFound.setGen(generation);
 					bestFound.setPos(allParticles[k].getPBestPosition());
 				}
+				/*
+				else
+				{
+					out.println(temp);
+					out.println(allParticles[k].getPBest());
+					out.println(bestFound.getFit());
+				}
+				*/
 			}
 
 			for (int k = 0; k < numParticles; k++)
@@ -104,6 +127,10 @@ public class PSO
 		out.println(bestFound.getSolutionTime());
 	}
 
+	// creates a neighborhood of particles depending on the command line arguments,
+	// as well as sets the minimum and maximum positions and speeds. Finally, it
+	// initializes all of the particles, as well as their personal and neighborhood
+	// bests
     public static void createNeighborhood(String topologyString, String functionString)
 	{
 		chiArray = new double[dimensions];
@@ -169,8 +196,6 @@ public class PSO
 		{
 			updateNBest(k);
 		}
-
-
     }
 
 
@@ -246,6 +271,8 @@ public class PSO
     	}
     }
 
+	// randomly selects k number of neighbors from all the particles and sets
+	// a particle's new set of neighbors to those
 	public static void findNeighborRandom()
 	{
 		int numNeighbors = numRandNeighbors;
@@ -274,7 +301,8 @@ public class PSO
 		}
 	}
 
-
+	// updates a particle's neighborhood best value if there is some new value
+	// in its neighborhood that is better than the previous neighborhood best
 	public static void updateNBest(int indexParticle)
 	{
 		double curNBest = allParticles[indexParticle].getNBest();
@@ -291,20 +319,32 @@ public class PSO
 		allParticles[indexParticle].setNBestPosition(allParticles[indexParticle].position);
 	}
 
-
-	public static boolean updatePBest(int index)
+	// updates a given particle's personal best if it's current position is
+	// better than any position it had before
+	public static String updatePBest(int index)
 	{
+		flag = 0;
 		double curBest = allParticles[index].getPBest();
 		double potentialBest = TestFunctions.testFunction(allParticles[index]);
-		if (potentialBest < curBest)
+		if(potentialBest < curBest)
 		{
+			out.println("a pbest was updated");
+			out.println(potentialBest);
+			out.println(curBest);
 			allParticles[index].setPBest(potentialBest);
+			out.println(allParticles[index].getPBest());
 			allParticles[index].setPBestPosition(allParticles[index].position);
-			return true;
+			flag = 1;
+			return "true";
 		}
-		return false;
+		else
+		{
+			return "false";
+		}
 	}
 
+	// updates the velocity values for each dimension for a given particle
+	// based on some random value added to the current velocity
 	public static void updateVelocity(Particle particle)
 	{
 		double[] U_1 = new double[dimensions];
@@ -334,6 +374,7 @@ public class PSO
 		}
 	}
 
+	// updates the position of a particle based on it's current velocity
 	public static void updatePosition(Particle particle)
 	{
 		particle.position = sum(particle.position,particle.velocity);
@@ -350,6 +391,7 @@ public class PSO
 		}
 	}
 
+	// returns an array where each index contains the sum of two values of given arrays
 	public static double[] sum(double[] a, double[] b)
 	{
 		double[] sum = new double[a.length];
@@ -360,6 +402,7 @@ public class PSO
 		return sum;
 	}
 
+	// returns the negation of an array of doubles, i.e. negate({2, 6, -3}) => {-2, -6, 3}
 	public static double[] negate(double[] a)
 	{
 		double[] negation;
@@ -372,6 +415,7 @@ public class PSO
 		return negation;
 	}
 
+	// returns the dot product of two arrays of doubles
 	public static double[] product(double[] a, double[] b)
 	{
 		double[] product = new double[a.length];

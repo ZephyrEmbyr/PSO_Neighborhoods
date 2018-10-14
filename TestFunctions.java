@@ -11,6 +11,8 @@ public class TestFunctions
 	final static int ROSENBROCK_NUM = 2;
 	final static int RASTRIGIN_NUM = 3;
 
+	// runs the test function specified by the command line argument and returns
+	// the calculated fitness
 	public static double testFunction(Particle particle)
 	{
 		double fitness;
