@@ -309,17 +309,21 @@ public class PSO
 	public static void updateNBest(int indexParticle)
 	{
 		double curNBest = allParticles[indexParticle].getNBest();
+		double[] curNBestPosition = allParticles[indexParticle].nBestPosition;
 
 		for (int neighborIndex:neighborhoods[indexParticle])
 		{
-			double tempNeighborFitness = TestFunctions.testFunction(allParticles[neighborIndex]);
+			// double tempNeighborFitness = TestFunctions.testFunction(allParticles[neighborIndex]);
+			double tempNeighborFitness = allParticles[neighborIndex].getNBest();
 			if (tempNeighborFitness < curNBest)
 			{
+				out.println("updated neighbor fitness at index " + neighborIndex);
 				curNBest = tempNeighborFitness;
+				curNBestPosition = allParticles[neighborIndex].nBestPosition;
 			}
 		}
 		allParticles[indexParticle].setNBest(curNBest);
-		allParticles[indexParticle].setNBestPosition(allParticles[indexParticle].position);
+		allParticles[indexParticle].setNBestPosition(curNBestPosition);
 	}
 
 	// updates a given particle's personal best if it's current position is
@@ -392,9 +396,10 @@ public class PSO
         System.out.println("pBestPosition: " + particle.pBestPosition[0] + " " + particle.pBestPosition[1]);
         System.out.println("position: " + particle.position[0] + " " + particle.position[1]);
 
-
 		double[] temp1 = product(U_1, sum(particle.pBestPosition, negate(particle.position)));
         System.out.println("temp1: " + temp1[0] + " " + temp1[1]);
+		out.println(Arrays.toString(particle.pBestPosition) + " and " + Arrays.toString(particle.position));
+		out.println("additional printouts above");
 		double[] temp2 = product(U_2, sum(particle.nBestPosition, negate(particle.position)));
         System.out.println("temp2: " + temp2[0] + " " + temp2[1]);
 
