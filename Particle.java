@@ -67,4 +67,14 @@ class Particle {
 		pBestPosition = pos.clone();
 	}
 
+	public void setVelocity(double[] vel)
+	{
+		velocity = vel.clone();
+	}
+
+	public void setPosition(double[] pos)
+	{
+		position = pos.clone();
+	}
+
 }

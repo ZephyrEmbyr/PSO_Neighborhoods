@@ -355,7 +355,7 @@ public class PSO
 
 		double[] updatedVelocity = product(chiArray, sum(particle.velocity, sum(temp1, temp2)));
 
-		particle.velocity = updatedVelocity;
+        particle.setVelocity(updatedVelocity);
 		for(int k = 0; k < particle.velocity.length; k++)
 		{
 			if(particle.velocity[k] > maxPos)
@@ -372,7 +372,7 @@ public class PSO
 	// updates the position of a particle based on it's current velocity
 	public static void updatePosition(Particle particle)
 	{
-		particle.position = sum(particle.position,particle.velocity);
+        particle.setPosition(sum(particle.position,particle.velocity));
 		for(int k = 0; k < particle.position.length; k++)
 		{
 			if(particle.position[k] > maxPos)
