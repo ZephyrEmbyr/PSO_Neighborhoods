@@ -72,6 +72,11 @@ class Particle {
 		velocity = vel.clone();
 	}
 
+	public double[] getVelocity()
+	{
+        return velocity;
+	}
+
 	public void setPosition(double[] pos)
 	{
 		position = pos.clone();
