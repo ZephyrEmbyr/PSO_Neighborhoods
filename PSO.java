@@ -7,7 +7,7 @@ public class PSO
 	final static int RING_SIZE = 3;
 	final static int VON_NEUMANN_SIZE = 5;
 
-	static int flag = 0;
+	static int flag = 1;
 
 	static int dimensions = 30;
 	static double minPos = 16.0;
@@ -59,6 +59,7 @@ public class PSO
 		// Test function is set through the command line arguments
 
 		Best bestFound = new Best();
+		out.println(bestFound.getFit());
 
 		// RUN PSO CODE
 		// initialize data
@@ -66,6 +67,7 @@ public class PSO
 
 		for (int generation = 0; generation < numIterations; generation++)
 		{
+			out.println("new generation");
 			for (int k = 0; k < numParticles; k++)
 			{
 				//update velocity
@@ -80,20 +82,15 @@ public class PSO
 			{
 				//evaluate function at new position
 				//update personal best
+				updatePBest(k);
 
-				String temp = updatePBest(k);
-				if(flag == 1)
+
+				if(flag == 1 && allParticles[k].getPBest() < bestFound.getFit())
 				{
-					out.println(temp);
-				}
 
-
-				// if(updatePBest(k) && allParticles[k].getPBest() < bestFound.getFit())
-				if(temp.equals("true") && allParticles[k].getPBest() < bestFound.getFit())
-				{
-					out.println("does it ever get here");
+					out.println("set fit in PSO");
 					bestFound.setFit(allParticles[k].getPBest());
-					bestFound.setGen(generation);
+					bestFound.setGen(generation+1);
 					bestFound.setPos(allParticles[k].getPBestPosition());
 				}
 				/*
@@ -321,25 +318,23 @@ public class PSO
 
 	// updates a given particle's personal best if it's current position is
 	// better than any position it had before
-	public static String updatePBest(int index)
+	public static void updatePBest(int index)
 	{
-		flag = 0;
 		double curBest = allParticles[index].getPBest();
 		double potentialBest = TestFunctions.testFunction(allParticles[index]);
 		if(potentialBest < curBest)
 		{
-			out.println("a pbest was updated");
-			out.println(potentialBest);
-			out.println(curBest);
+			// out.println("a pbest was updated");
+			// out.println(potentialBest);
+			// out.println(curBest);
 			allParticles[index].setPBest(potentialBest);
-			out.println(allParticles[index].getPBest());
+			// out.println(allParticles[index].getPBest());
 			allParticles[index].setPBestPosition(allParticles[index].position);
 			flag = 1;
-			return "true";
 		}
 		else
 		{
-			return "false";
+			flag = 0;
 		}
 	}
 

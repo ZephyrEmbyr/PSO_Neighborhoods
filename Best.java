@@ -47,20 +47,24 @@ class Best
 
     public void setPos(double[] pos)
     {
-        position = pos;
+        position = pos.clone();
         endTime = System.currentTimeMillis();
     }
 
     public void setFit(double fit)
     {
+        // System.out.println("set fit");
+        // System.out.println(fit);
         fitness = fit;
+        // System.out.println(fitness);
         endTime = System.currentTimeMillis();
     }
 
     public double getFit()
     {
-        // return fitness;
-        return Double.MAX_VALUE;
+        // System.out.println("get fit");
+        // System.out.println(fitness);
+        return fitness;
     }
 
     public long getTimeElapsed()

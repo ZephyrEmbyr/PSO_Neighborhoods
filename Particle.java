@@ -59,12 +59,12 @@ class Particle {
 
 	public void setNBestPosition(double[] pos)
 	{
-		nBestPosition = pos;
+		nBestPosition = pos.clone();
 	}
 
 	public void setPBestPosition(double[] pos)
 	{
-		pBestPosition = pos;
+		pBestPosition = pos.clone();
 	}
 
 }
