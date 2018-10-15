@@ -156,6 +156,7 @@ public class PSO
 		}
 		else{
 			System.out.println("Topology (first) argument needs to be one of gl, ri, vn, or ra");
+			System.exit(1);
 		}
 		if (functionString.equals("ack")) {
 			TestFunctions.FUNCTION_TO_USE = 1;
@@ -181,6 +182,7 @@ public class PSO
 		}
 		else{
 			System.out.println("Function (fourth) argument needs to be one of rok, ack, or ras");
+			System.exit(1);
 		}
 
 		allParticles = new Particle[numParticles];
