@@ -433,7 +433,7 @@ public class PSO
 			}
 			else if(particle.position[k] < minPos)
 			{
-				particle.position[k] = minPos;
+				//particle.position[k] = minPos;
 			}
 		}
 	}
