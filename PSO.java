@@ -204,6 +204,7 @@ public class PSO
 		{
 			updateNBest(k);
 		}
+		System.out.println("NEIGHBORHOOD: " + Arrays.deepToString(neighborhoods));
     }
 
 
@@ -215,7 +216,7 @@ public class PSO
 			for (int j = 0; i < numParticles; j++) {
 				neighbors[j] = j;
 			}
-			neighborhoods[i] = neighbors
+			neighborhoods[i] = neighbors;
 		}
 
   //   	double gBest = allParticles[0].getNBest();
@@ -271,7 +272,6 @@ public class PSO
     // closest neighbors orthogonally
     public static void findNeighborVonNeumann()
 	{
-
     	int cols = (int) Math.ceil(Math.sqrt(numParticles));
     	// int rows = (int) numParticles / cols
 
@@ -280,8 +280,32 @@ public class PSO
     		int curParticle   = i;
     		int aboveParticle = (i - cols + numParticles) % numParticles;
     		int belowParticle = (i + cols) % numParticles;
-    		int leftParticle  = (i - 1 + cols) % numParticles;
-    		int rightParticle = (i + 1) % numParticles;
+    		int leftParticle;
+    		int rightParticle;
+    		// need last val
+    		// if (i - 1 < 0) {
+    		// 	leftParticle = numParticles - 1;
+    		// }
+    		// need last in col
+    		if (i % cols == 0) {
+    			leftParticle = i + cols - 1;
+    		}
+    		// everything else
+    		else {
+    			leftParticle = i - 1;
+    		}
+    		// need first val
+    		// if (i + 1 == numParticles) {
+    		// 	rightParticle = 0;
+    		// }
+    		// need first in col
+    		if ((i + 1) % cols == 0 ) {
+    			rightParticle = i - cols + 1;
+    		}
+    		// everything else
+    		else {
+    			rightParticle = i + 1;
+    		}
     		int[] neighbors   = {curParticle, aboveParticle, belowParticle, leftParticle, rightParticle};
     		neighborhoods[i]  = neighbors;
     	}
