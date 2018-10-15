@@ -425,17 +425,6 @@ public class PSO
 	public static void updatePosition(Particle particle)
 	{
         particle.setPosition(sum(particle.position,particle.velocity));
-		for(int k = 0; k < particle.position.length; k++)
-		{
-			if(particle.position[k] > maxPos)
-			{
-				particle.position[k] = maxPos;
-			}
-			else if(particle.position[k] < minPos)
-			{
-				//particle.position[k] = minPos;
-			}
-		}
 	}
 
 	// returns an array where each index contains the sum of two values of given arrays
