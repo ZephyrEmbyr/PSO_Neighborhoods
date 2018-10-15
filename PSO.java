@@ -8,6 +8,7 @@ public class PSO
 	final static int VON_NEUMANN_SIZE = 5;
 
 	static int flag = 1;
+    static int usingRandomFlag = 0;
 
 	static int dimensions = 30;
 	static double minPos = 16.0;
@@ -68,19 +69,19 @@ public class PSO
 
 		for (int generation = 0; generation < numIterations; generation++)
 		{
-			out.println("new generation");
+			//out.println("new generation");
 			for (int k = 0; k < numParticles; k++)
 			{
 				//update velocity
 				updateVelocity(allParticles[k]);
 			}
-            System.out.println("Velocity updated");
+            //System.out.println("Velocity updated");
 			for (int k = 0; k < numParticles; k++)
 			{
 				//update position
 				updatePosition(allParticles[k]);
 			}
-            System.out.println("Position updated");
+            //System.out.println("Position updated");
 			for (int k = 0; k < numParticles; k++)
 			{
 				//evaluate function at new position
@@ -92,7 +93,7 @@ public class PSO
 				if(flag == 1 && allParticles[k].getPBest() < bestFound.getFit())
 				{
 
-					out.println("set fit in PSO");
+					//out.println("set fit in PSO");
 					bestFound.setFit(allParticles[k].getPBest());
 					bestFound.setGen(generation+1);
 					bestFound.setPos(allParticles[k].getPBestPosition());
@@ -106,6 +107,12 @@ public class PSO
 				}
 				*/
 			}
+
+            //If random topology used then update neighbors
+            if (usingRandomFlag == 1) {
+                findNeighborRandom();
+                System.out.println("NEIGHBORHOOD: " + Arrays.deepToString(neighborhoods));
+            }
 
 			for (int k = 0; k < numParticles; k++)
 			{
@@ -155,12 +162,17 @@ public class PSO
 		else if (topologyString.equals("ra")) {
 			// if random neighborhood
 			neighborhoods = new int[numParticles][numRandNeighbors];
+            usingRandomFlag = 1;
 			findNeighborRandom();
 		}
 		else{
 			System.out.println("Topology (first) argument needs to be one of gl, ri, vn, or ra");
 			System.exit(1);
 		}
+
+        //TAKE OUT LATER
+        //System.exit(1);  
+
 		if (functionString.equals("ack")) {
 			TestFunctions.FUNCTION_TO_USE = 1;
 			minPos = 16.0;
@@ -319,16 +331,16 @@ public class PSO
 		if(firstTimeRandom || rand.nextDouble() < 0.2)
 		{
 			firstTimeRandom = false;
-			Particle[] particles = allParticles.clone();
+			//Particle[] particles = (Particle[]) allParticles.clone();
 			ArrayList<Integer> solution = new ArrayList<Integer>();
 			for(int i = 0; i < numParticles; i++)
 			{
 				solution.add(i);
 			}
-			Collections.shuffle(solution);
 
 			for(int j = 0; j < numParticles; j++)
 			{
+                Collections.shuffle(solution);
 				List<Integer> solutionCopy = (ArrayList<Integer>) solution.clone();
 				solutionCopy.remove(new Integer(j));
 				for(int k = 0; k < numNeighbors-1; k++)
@@ -374,20 +386,20 @@ public class PSO
         double[] testDummyVel = allParticles[index].velocity;
 
         if (index == 0) {
-            System.out.println("pbest position array");
+            //System.out.println("pbest position array");
             for (int i = 0; i < testDummy.length; i++ ) {
-                System.out.print(testDummy[i] + " ");
+                //System.out.print(testDummy[i] + " ");
             }
-            System.out.println("end");
+            //System.out.println("end");
 
-            System.out.println("pbest velocity array");
+            //System.out.println("pbest velocity array");
             for (int i = 0; i < testDummyVel.length; i++ ) {
-                System.out.print(testDummyVel[i] + " ");
+                //System.out.print(testDummyVel[i] + " ");
             }
-            System.out.println("end");
+            //System.out.println("end");
 
-            System.out.println("curBest: " + curBest);
-            System.out.println("potentialBest: " + potentialBest);
+            //System.out.println("curBest: " + curBest);
+            //System.out.println("potentialBest: " + potentialBest);
         }
 		if(potentialBest < curBest)
 		{
@@ -399,18 +411,18 @@ public class PSO
 			allParticles[index].setPBestPosition(allParticles[index].position);
 
             if (index == 0) {
-                System.out.println("UPDATED!");
-                System.out.println("new pbest: " + allParticles[index].getPBest());
-                System.out.println("new pbest position: " + allParticles[index].position[0] + allParticles[index].position[1]);
-                System.out.println();
+                //System.out.println("UPDATED!");
+                //System.out.println("new pbest: " + allParticles[index].getPBest());
+                //System.out.println("new pbest position: " + allParticles[index].position[0] + allParticles[index].position[1]);
+                //System.out.println();
             }
 			flag = 1;
 		}
 		else
 		{
             if (index == 0) {
-                System.out.println("NOT UPDATED!");
-                System.out.println();
+                //System.out.println("NOT UPDATED!");
+                //System.out.println();
             }
 			flag = 0;
 		}
@@ -428,20 +440,20 @@ public class PSO
 			U_2[i] = phi_2 * rand.nextDouble();
 		}
 
-        System.out.println("U_1: " + U_1[0] + " " + U_1[1]);
-        System.out.println("U_2: " + U_2[0] + " " + U_2[1]);
-        System.out.println("pBestPosition: " + particle.pBestPosition[0] + " " + particle.pBestPosition[1]);
-        System.out.println("position: " + particle.position[0] + " " + particle.position[1]);
+        //System.out.println("U_1: " + U_1[0] + " " + U_1[1]);
+        //System.out.println("U_2: " + U_2[0] + " " + U_2[1]);
+        //System.out.println("pBestPosition: " + particle.pBestPosition[0] + " " + particle.pBestPosition[1]);
+        //System.out.println("position: " + particle.position[0] + " " + particle.position[1]);
 
 		double[] temp1 = product(U_1, sum(particle.pBestPosition, negate(particle.position)));
-        System.out.println("temp1: " + temp1[0] + " " + temp1[1]);
-		out.println(Arrays.toString(particle.pBestPosition) + " and " + Arrays.toString(particle.position));
-		out.println("additional printouts above");
+        //System.out.println("temp1: " + temp1[0] + " " + temp1[1]);
+		//out.println(Arrays.toString(particle.pBestPosition) + " and " + Arrays.toString(particle.position));
+		//out.println("additional printouts above");
 		double[] temp2 = product(U_2, sum(particle.nBestPosition, negate(particle.position)));
-        System.out.println("temp2: " + temp2[0] + " " + temp2[1]);
+        //System.out.println("temp2: " + temp2[0] + " " + temp2[1]);
 
 		double[] updatedVelocity = product(chiArray, sum(particle.velocity, sum(temp1, temp2)));
-        System.out.println("updatedVelocity: " + updatedVelocity[0] + " " + updatedVelocity[1]);
+        //System.out.println("updatedVelocity: " + updatedVelocity[0] + " " + updatedVelocity[1]);
 
         particle.setVelocity(updatedVelocity);
 
