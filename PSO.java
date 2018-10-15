@@ -140,19 +140,22 @@ public class PSO
 		if (topologyString.equals("gl")) {
 			// if global neighborhood
 			neighborhoods = new int[numParticles][numParticles];
-            System.out.println("Created global topology");
+			findNeighborGlobal();
 		}
 		else if (topologyString.equals("ri")) {
 			// if ring neighborhood
 			neighborhoods = new int[numParticles][RING_SIZE];
+			findNeighborRing();
 		}
 		else if (topologyString.equals("vn")) {
 			// if von neumann neighborhood
 			neighborhoods = new int[numParticles][VON_NEUMANN_SIZE];
+			findNeighborVonNeumann();
 		}
 		else if (topologyString.equals("ra")) {
 			// if random neighborhood
 			neighborhoods = new int[numParticles][numRandNeighbors];
+			findNeighborRandom();
 		}
 		else{
 			System.out.println("Topology (first) argument needs to be one of gl, ri, vn, or ra");
@@ -205,24 +208,32 @@ public class PSO
 
 
     // returns array of neighborhood bests for each particle (each will be global best)
-    public static double[] findNeighborGlobal()
+    public static void findNeighborGlobal()
 	{
-    	double gBest = allParticles[0].getNBest();
-    	for (int i = 0; i < numParticles; i++)
-		{
-    		double curPBest = allParticles[i].getPBest();
-    		if (curPBest < gBest)
-			{
-    			gBest = curPBest;
-    		}
-    	}
+		for (int i = 0; i < numParticles; i++) {
+			int[] neighbors = new int[numParticles];
+			for (int j = 0; i < numParticles; j++) {
+				neighbors[j] = j;
+			}
+			neighborhoods[i] = neighbors
+		}
 
-       	double[] globalBests = new double[numParticles];
-    	for (int i = 0; i < numParticles; i++)
-		{
-			globalBests[i] = gBest;
-    	}
-    	return globalBests;
+  //   	double gBest = allParticles[0].getNBest();
+  //   	for (int i = 0; i < numParticles; i++)
+		// {
+  //   		double curPBest = allParticles[i].getPBest();
+  //   		if (curPBest < gBest)
+		// 	{
+  //   			gBest = curPBest;
+  //   		}
+  //   	}
+
+  //      	double[] globalBests = new double[numParticles];
+  //   	for (int i = 0; i < numParticles; i++)
+		// {
+		// 	globalBests[i] = gBest;
+  //   	}
+  //   	return globalBests;
     }
 
 
@@ -269,10 +280,10 @@ public class PSO
     		int curParticle   = i;
     		int aboveParticle = (i - cols + numParticles) % numParticles;
     		int belowParticle = (i + cols) % numParticles;
-    		int leftParticle  = (i - 1 + numParticles) % numParticles;
+    		int leftParticle  = (i - 1 + cols) % numParticles;
     		int rightParticle = (i + 1) % numParticles;
     		int[] neighbors   = {curParticle, aboveParticle, belowParticle, leftParticle, rightParticle};
-    		neighborhoods[i] = neighbors;
+    		neighborhoods[i]  = neighbors;
     	}
     }
 

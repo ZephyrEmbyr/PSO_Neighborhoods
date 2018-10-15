@@ -13,7 +13,7 @@ numParticles[0]=16
 numParticles[1]=30
 numParticles[2]=49
 
-iters=10000
+iters=1
 
 function[0]="rok"
 function[1]="ack"
