@@ -381,14 +381,17 @@ public class PSO
 	public static void updateNBest(int indexParticle)
 	{
 		double curNBest = allParticles[indexParticle].getNBest();
+        System.out.println("curNBest: " + curNBest);
 		double[] curNBestPosition = allParticles[indexParticle].nBestPosition;
 
 		for (int neighborIndex:neighborhoods[indexParticle])
 		{
 			// double tempNeighborFitness = TestFunctions.testFunction(allParticles[neighborIndex]);
 			double tempNeighborFitness = allParticles[neighborIndex].getNBest();
-			if (tempNeighborFitness < curNBest)
+            System.out.println("tempNeighborFitness: " + tempNeighborFitness);
+			if (tempNeighborFitness <= curNBest)
 			{
+                System.out.println("HI");
 				// out.println("updated neighbor fitness at index " + neighborIndex);
 				curNBest = tempNeighborFitness;
 				curNBestPosition = allParticles[neighborIndex].nBestPosition;
