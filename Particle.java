@@ -24,8 +24,8 @@ class Particle {
 
 		for (int i = 0; i < dimensions; i++)
 		{
-			position[i] = minPos   * rand.nextDouble() + (maxPos   - minPos);
-			velocity[i] = minSpeed * rand.nextDouble() + (maxSpeed - minSpeed);
+			position[i] = minPos   + rand.nextDouble() * (maxPos   - minPos);
+			velocity[i] = minSpeed + rand.nextDouble() * (maxSpeed - minSpeed);
 		}
 
 	}
