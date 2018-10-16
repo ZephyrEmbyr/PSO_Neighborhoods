@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.*;
 import static java.lang.System.out;
 // import TestFunctions.*;
 public class PSO
@@ -536,6 +537,20 @@ public class PSO
 		return product;
 	}
 
+    public static void appendStringToFile(String fileName, 
+                                       String str) 
+    { 
+        try { 
+            // Open given file in append mode. 
+            BufferedWriter out = new BufferedWriter( 
+                   new FileWriter(fileName, true)); 
+            out.write(str); 
+            out.close(); 
+        } 
+        catch (IOException e) { 
+            System.out.println("exception occoured" + e); 
+        } 
+    } 
 
 
 }
