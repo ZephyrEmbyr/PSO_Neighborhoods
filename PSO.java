@@ -98,8 +98,7 @@ public class PSO
 					bestFound.setFit(allParticles[k].getPBest());
 					bestFound.setGen(generation+1);
 					bestFound.setPos(allParticles[k].getPBestPosition());
-					if((generation+1)%1000 == 0)
-						bestFound.updatePerThousand((generation-999)/1000);
+					out.println(Arrays.toString(bestFound.getPos()));
 				}
 			}
 
@@ -128,7 +127,15 @@ public class PSO
 				}
 			}
 
+			if((generation+1)%1000 == 0)
+			{
+				bestFound.updatePerThousand((generation-999)/1000);
+			}
+
 		}
+		
+		// System.exit(0);
+
 		out.print("Time elapsed: ");
 		out.println(bestFound.getTimeElapsed());
 		out.print("Best found solution value: ");
@@ -143,6 +150,8 @@ public class PSO
 		out.print("Solution found in (milliseconds): ");
 		out.println(bestFound.getSolutionTime());
 
+		// System.exit(0);
+
 		ArrayList<String> output = new ArrayList<String>();
 		output.addAll(Arrays.asList(args));
 		output.add(Double.toString(bestFound.getFit()));
@@ -155,6 +164,8 @@ public class PSO
 		String finalOutput = String.join(",", output);
         finalOutput += "\n";
 		out.println(finalOutput);
+
+		System.exit(0);
 		appendStringToFile("output.csv",finalOutput);
 	}
 
@@ -450,20 +461,20 @@ public class PSO
 			// out.println(allParticles[index].getPBest());
 			allParticles[index].setPBestPosition(allParticles[index].position);
 
-			if (index == 0) {
-				//System.out.println("UPDATED!");
-				//System.out.println("new pbest: " + allParticles[index].getPBest());
-				//System.out.println("new pbest position: " + allParticles[index].position[0] + allParticles[index].position[1]);
-				//System.out.println();
-			}
+			// if (index == 0) {
+			// 	// System.out.println("UPDATED!");
+			// 	// System.out.println("new pbest: " + allParticles[index].getPBest());
+			// 	// System.out.println("new pbest position: " + allParticles[index].position[0] + allParticles[index].position[1]);
+			// 	// System.out.println();
+			// }
 			flag = 1;
 		}
 		else
 		{
-			if (index == 0) {
-				//System.out.println("NOT UPDATED!");
-				//System.out.println();
-			}
+			// if (index == 0) {
+			// 	//System.out.println("NOT UPDATED!");
+			// 	//System.out.println();
+			// }
 			flag = 0;
 		}
 	}
@@ -486,11 +497,11 @@ public class PSO
 		//System.out.println("position: " + particle.position[0] + " " + particle.position[1]);
 
 		double[] temp1 = product(U_1, sum(particle.pBestPosition, negate(particle.position)));
-		//System.out.println("temp1: " + temp1[0] + " " + temp1[1]);
+		// System.out.println("temp1: " + temp1[0] + " " + temp1[1]);
 		//out.println(Arrays.toString(particle.pBestPosition) + " and " + Arrays.toString(particle.position));
 		//out.println("additional printouts above");
 		double[] temp2 = product(U_2, sum(particle.nBestPosition, negate(particle.position)));
-		//System.out.println("temp2: " + temp2[0] + " " + temp2[1]);
+		// System.out.println("temp2: " + temp2[0] + " " + temp2[1]);
 
 		double[] updatedVelocity = product(chiArray, sum(particle.velocity, sum(temp1, temp2)));
 		//System.out.println("updatedVelocity: " + updatedVelocity[0] + " " + updatedVelocity[1]);
