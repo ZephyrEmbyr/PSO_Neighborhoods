@@ -387,7 +387,7 @@ public class PSO
 		for (int neighborIndex:neighborhoods[indexParticle])
 		{
 			// double tempNeighborFitness = TestFunctions.testFunction(allParticles[neighborIndex]);
-			double tempNeighborFitness = allParticles[neighborIndex].getNBest();
+			double tempNeighborFitness = allParticles[neighborIndex].getPBest();
             System.out.println("tempNeighborFitness: " + tempNeighborFitness);
 			if (tempNeighborFitness <= curNBest)
 			{
