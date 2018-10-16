@@ -61,7 +61,6 @@ public class PSO
 		// Test function is set through the command line arguments
 
 		Best bestFound = new Best();
-		out.println(bestFound.getFit());
 
 		// RUN PSO CODE
 		// initialize data
@@ -98,21 +97,15 @@ public class PSO
 					bestFound.setFit(allParticles[k].getPBest());
 					bestFound.setGen(generation+1);
 					bestFound.setPos(allParticles[k].getPBestPosition());
+					if((generation+1)%1000 == 0)
+						bestFound.updatePerThousand((generation-999)/1000);
 				}
-				/*
-				else
-				{
-					out.println(temp);
-					out.println(allParticles[k].getPBest());
-					out.println(bestFound.getFit());
-				}
-				*/
 			}
 
             //If random topology used then update neighbors
             if (usingRandomFlag == 1) {
                 findNeighborRandom();
-                System.out.println("NEIGHBORHOOD: " + Arrays.deepToString(neighborhoods));
+                // System.out.println("NEIGHBORHOOD: " + Arrays.deepToString(neighborhoods));
             }
 
             if (usingGlobalSwarm == 1) 
@@ -246,7 +239,7 @@ public class PSO
         }
 
 
-		System.out.println("NEIGHBORHOOD: " + Arrays.deepToString(neighborhoods));
+		// System.out.println("NEIGHBORHOOD: " + Arrays.deepToString(neighborhoods));
     }
 
 
@@ -396,7 +389,7 @@ public class PSO
 			double tempNeighborFitness = allParticles[neighborIndex].getNBest();
 			if (tempNeighborFitness < curNBest)
 			{
-				out.println("updated neighbor fitness at index " + neighborIndex);
+				// out.println("updated neighbor fitness at index " + neighborIndex);
 				curNBest = tempNeighborFitness;
 				curNBestPosition = allParticles[neighborIndex].nBestPosition;
 			}

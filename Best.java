@@ -9,15 +9,17 @@ class Best
     double fitness;
     long startTime;
     long endTime;
+    double[] fitnessPerThousand;
 
     // constructs a Best object using specified values
-    public Best(int gen, double[] pos, double fit)
+    public Best(int gen, double[] pos, double fit, int iter)
     {
         generation = gen;
         position = pos;
         fitness = fit;
         startTime = System.currentTimeMillis();
         endTime = startTime;
+        fitnessPerThousand = new double[(int)((iter+1)/1000)];
     }
 
     // no-argument constructor
@@ -27,6 +29,11 @@ class Best
         fitness = Double.MAX_VALUE;
         startTime = System.currentTimeMillis();
         endTime = startTime;
+    }
+
+    public void updatePerThousand(int index)
+    {
+        fitnessPerThousand[index] = fitness;
     }
 
     // getters and setters
