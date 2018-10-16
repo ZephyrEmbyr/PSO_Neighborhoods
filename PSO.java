@@ -153,6 +153,7 @@ public class PSO
 		output.add(Long.toString(bestFound.getSolutionTime()));
 		output.add(Long.toString(bestFound.getTimeElapsed()));
 		String finalOutput = String.join(",", output);
+        finalOutput += "\n";
 		out.println(finalOutput);
 		appendStringToFile("output.csv",finalOutput);
 	}
