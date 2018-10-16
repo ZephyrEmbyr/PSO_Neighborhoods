@@ -8,8 +8,8 @@ public class PSO
 	final static int VON_NEUMANN_SIZE = 5;
 
 	static int flag = 1;
-    static int usingRandomFlag = 0;
-    static int usingGlobalSwarm = 0;
+	static int usingRandomFlag = 0;
+	static int usingGlobalSwarm = 0;
 
 	static int dimensions = 30;
 	static double minPos = 16.0;
@@ -65,7 +65,7 @@ public class PSO
 		// RUN PSO CODE
 		// initialize data
 		createNeighborhood(topologyString, functionString);
-        System.out.println("Done Initializing");
+		System.out.println("Done Initializing");
 
 		for (int generation = 0; generation < numIterations; generation++)
 		{
@@ -75,13 +75,13 @@ public class PSO
 				//update velocity
 				updateVelocity(allParticles[k]);
 			}
-            //System.out.println("Velocity updated");
+			//System.out.println("Velocity updated");
 			for (int k = 0; k < numParticles; k++)
 			{
 				//update position
 				updatePosition(allParticles[k]);
 			}
-            //System.out.println("Position updated");
+			//System.out.println("Position updated");
 			for (int k = 0; k < numParticles; k++)
 			{
 				//evaluate function at new position
@@ -89,7 +89,7 @@ public class PSO
 				updatePBest(k);
 
 
-                //System.out.println("flag: " + flag);
+				//System.out.println("flag: " + flag);
 				if(flag == 1 && allParticles[k].getPBest() < bestFound.getFit())
 				{
 
@@ -102,30 +102,30 @@ public class PSO
 				}
 			}
 
-            //If random topology used then update neighbors
-            if (usingRandomFlag == 1) {
-                findNeighborRandom();
-                // System.out.println("NEIGHBORHOOD: " + Arrays.deepToString(neighborhoods));
-            }
+			//If random topology used then update neighbors
+			if (usingRandomFlag == 1) {
+				findNeighborRandom();
+				// System.out.println("NEIGHBORHOOD: " + Arrays.deepToString(neighborhoods));
+			}
 
-            if (usingGlobalSwarm == 1) 
-            {
-                updateNBest(0);
-                double globalBest = allParticles[0].getNBest();
-                for(int m = 0; m < numParticles; m++) {
-                    allParticles[m].setNBest(globalBest);
-                }
-            }
+			if (usingGlobalSwarm == 1) 
+			{
+				updateNBest(0);
+				double globalBest = allParticles[0].getNBest();
+				for(int m = 0; m < numParticles; m++) {
+					allParticles[m].setNBest(globalBest);
+				}
+			}
 
 
-            else if (usingGlobalSwarm == 0) 
-            {
-                for (int k = 0; k < numParticles; k++)
-                {
-                    //update neighborhood bests
-                    updateNBest(k);
-                }
-            }
+			else if (usingGlobalSwarm == 0) 
+			{
+				for (int k = 0; k < numParticles; k++)
+				{
+					//update neighborhood bests
+					updateNBest(k);
+				}
+			}
 
 		}
 		out.print("Time elapsed: ");
@@ -147,7 +147,7 @@ public class PSO
 	// as well as sets the minimum and maximum positions and speeds. Finally, it
 	// initializes all of the particles, as well as their personal and neighborhood
 	// bests
-    public static void createNeighborhood(String topologyString, String functionString)
+	public static void createNeighborhood(String topologyString, String functionString)
 	{
 		chiArray = new double[dimensions];
 		Arrays.fill(chiArray, Chi);
@@ -156,7 +156,7 @@ public class PSO
 			// if global neighborhood
 			neighborhoods = new int[numParticles][numParticles];
 			findNeighborGlobal();
-            usingGlobalSwarm = 1;
+			usingGlobalSwarm = 1;
 		}
 		else if (topologyString.equals("ri")) {
 			// if ring neighborhood
@@ -171,7 +171,7 @@ public class PSO
 		else if (topologyString.equals("ra")) {
 			// if random neighborhood
 			neighborhoods = new int[numParticles][numRandNeighbors];
-            usingRandomFlag = 1;
+			usingRandomFlag = 1;
 			findNeighborRandom();
 		}
 		else{
@@ -179,8 +179,8 @@ public class PSO
 			System.exit(1);
 		}
 
-        //TAKE OUT LATER
-        //System.exit(1);  
+		//TAKE OUT LATER
+		//System.exit(1);  
 
 		if (functionString.equals("ack")) {
 			TestFunctions.FUNCTION_TO_USE = 1;
@@ -191,7 +191,7 @@ public class PSO
 		}
 		else if (functionString.equals("rok")) {
 			TestFunctions.FUNCTION_TO_USE = 2;
-            System.out.println("In ROK");
+			System.out.println("In ROK");
 			minPos = 15.0;
 			maxPos = 30.0;
 			minSpeed = -2.048;
@@ -211,40 +211,40 @@ public class PSO
 
 		allParticles = new Particle[numParticles];
 
-        for (int i = 0; i < numParticles; i++)
+		for (int i = 0; i < numParticles; i++)
 		{
-            Particle particle = new Particle(dimensions, minPos, maxPos, minSpeed, maxSpeed);
-            allParticles[i] = particle;
-        }
+			Particle particle = new Particle(dimensions, minPos, maxPos, minSpeed, maxSpeed);
+			allParticles[i] = particle;
+		}
 
 		for(int k = 0; k < numParticles; k++)
 		{
 			updatePBest(k);
 		}
 
-        if (usingGlobalSwarm == 1) 
-        {
-            updateNBest(0);
-            double globalBest = allParticles[0].getNBest();
-            for(int m = 0; m < numParticles; m++) {
-                allParticles[m].setNBest(globalBest);
-            }
-        }
-        else if (usingGlobalSwarm == 0) 
-        {
-            for(int k = 0; k < numParticles; k++)
-            {
-                updateNBest(k);
-            }
-        }
+		if (usingGlobalSwarm == 1) 
+		{
+			updateNBest(0);
+			double globalBest = allParticles[0].getNBest();
+			for(int m = 0; m < numParticles; m++) {
+				allParticles[m].setNBest(globalBest);
+			}
+		}
+		else if (usingGlobalSwarm == 0) 
+		{
+			for(int k = 0; k < numParticles; k++)
+			{
+				updateNBest(k);
+			}
+		}
 
 
 		// System.out.println("NEIGHBORHOOD: " + Arrays.deepToString(neighborhoods));
-    }
+	}
 
 
-    // returns array of neighborhood bests for each particle (each will be global best)
-    public static void findNeighborGlobal()
+	// returns array of neighborhood bests for each particle (each will be global best)
+	public static void findNeighborGlobal()
 	{
 		for (int i = 0; i < numParticles; i++) {
 			int[] neighbors = new int[numParticles];
@@ -270,81 +270,81 @@ public class PSO
 		// 	globalBests[i] = gBest;
   //   	}
   //   	return globalBests;
-    }
+	}
 
 
-    // returns array of neighborhood bests for each particle where the neighborhood is a ring
-    public static void findNeighborRing(){
+	// returns array of neighborhood bests for each particle where the neighborhood is a ring
+	public static void findNeighborRing(){
 
 		for (int i = 0; i < numParticles; i++)
 		{
 			int priorParticle, curParticle, nextParticle;
-    		if (i == 0)
+			if (i == 0)
 			{
-    			priorParticle = numParticles - 1;
-    			curParticle   = i;
-    			nextParticle  = i + 1;
-    		}
-    		else if (i == numParticles - 1)
+				priorParticle = numParticles - 1;
+				curParticle   = i;
+				nextParticle  = i + 1;
+			}
+			else if (i == numParticles - 1)
 			{
-    			priorParticle = i - 1;
-    			curParticle   = i;
-    			nextParticle  = 0;
-    		}
-    		else
+				priorParticle = i - 1;
+				curParticle   = i;
+				nextParticle  = 0;
+			}
+			else
 			{
-    			priorParticle = i - 1;
-    			curParticle   = i;
-    			nextParticle  = i + 1;
-    		}
-    		int[] neighbors   = {priorParticle, curParticle, nextParticle};
-    		neighborhoods[i]  = neighbors;
-    	}
-    }
+				priorParticle = i - 1;
+				curParticle   = i;
+				nextParticle  = i + 1;
+			}
+			int[] neighbors   = {priorParticle, curParticle, nextParticle};
+			neighborhoods[i]  = neighbors;
+		}
+	}
 
 
-    // returns array of neighborhood bests for each particle where the neighborhood is the four
-    // closest neighbors orthogonally
-    public static void findNeighborVonNeumann()
+	// returns array of neighborhood bests for each particle where the neighborhood is the four
+	// closest neighbors orthogonally
+	public static void findNeighborVonNeumann()
 	{
-    	int cols = (int) Math.ceil(Math.sqrt(numParticles));
-    	// int rows = (int) numParticles / cols
+		int cols = (int) Math.ceil(Math.sqrt(numParticles));
+		// int rows = (int) numParticles / cols
 
-    	for (int i = 0; i < numParticles; i++)
+		for (int i = 0; i < numParticles; i++)
 		{
-    		int curParticle   = i;
-    		int aboveParticle = (i - cols + numParticles) % numParticles;
-    		int belowParticle = (i + cols) % numParticles;
-    		int leftParticle;
-    		int rightParticle;
-    		// need last val
-    		// if (i - 1 < 0) {
-    		// 	leftParticle = numParticles - 1;
-    		// }
-    		// need last in col
-    		if (i % cols == 0) {
-    			leftParticle = i + cols - 1;
-    		}
-    		// everything else
-    		else {
-    			leftParticle = i - 1;
-    		}
-    		// need first val
-    		// if (i + 1 == numParticles) {
-    		// 	rightParticle = 0;
-    		// }
-    		// need first in col
-    		if ((i + 1) % cols == 0 ) {
-    			rightParticle = i - cols + 1;
-    		}
-    		// everything else
-    		else {
-    			rightParticle = i + 1;
-    		}
-    		int[] neighbors   = {curParticle, aboveParticle, belowParticle, leftParticle, rightParticle};
-    		neighborhoods[i]  = neighbors;
-    	}
-    }
+			int curParticle   = i;
+			int aboveParticle = (i - cols + numParticles) % numParticles;
+			int belowParticle = (i + cols) % numParticles;
+			int leftParticle;
+			int rightParticle;
+			// need last val
+			// if (i - 1 < 0) {
+			// 	leftParticle = numParticles - 1;
+			// }
+			// need last in col
+			if (i % cols == 0) {
+				leftParticle = i + cols - 1;
+			}
+			// everything else
+			else {
+				leftParticle = i - 1;
+			}
+			// need first val
+			// if (i + 1 == numParticles) {
+			// 	rightParticle = 0;
+			// }
+			// need first in col
+			if ((i + 1) % cols == 0 ) {
+				rightParticle = i - cols + 1;
+			}
+			// everything else
+			else {
+				rightParticle = i + 1;
+			}
+			int[] neighbors   = {curParticle, aboveParticle, belowParticle, leftParticle, rightParticle};
+			neighborhoods[i]  = neighbors;
+		}
+	}
 
 	// randomly selects k number of neighbors from all the particles and sets
 	// a particle's new set of neighbors to those
@@ -363,7 +363,7 @@ public class PSO
 
 			for(int j = 0; j < numParticles; j++)
 			{
-                Collections.shuffle(solution);
+				Collections.shuffle(solution);
 				List<Integer> solutionCopy = (ArrayList<Integer>) solution.clone();
 				solutionCopy.remove(new Integer(j));
 				for(int k = 0; k < numNeighbors-1; k++)
@@ -381,18 +381,17 @@ public class PSO
 	public static void updateNBest(int indexParticle)
 	{
 		double curNBest = allParticles[indexParticle].getNBest();
-        System.out.println("curNBest: " + curNBest);
+		System.out.println("curNBest: " + curNBest);
 		double[] curNBestPosition = allParticles[indexParticle].nBestPosition;
 
 		for (int neighborIndex:neighborhoods[indexParticle])
 		{
 			// double tempNeighborFitness = TestFunctions.testFunction(allParticles[neighborIndex]);
 			double tempNeighborFitness = allParticles[neighborIndex].getPBest();
-            System.out.println("tempNeighborFitness: " + tempNeighborFitness);
-			if (tempNeighborFitness <= curNBest)
+			System.out.println("tempNeighborFitness: " + tempNeighborFitness);
+			if (tempNeighborFitness < curNBest)
 			{
-                System.out.println("HI");
-				// out.println("updated neighbor fitness at index " + neighborIndex);
+				out.println("updated neighbor fitness at index " + neighborIndex);
 				curNBest = tempNeighborFitness;
 				curNBestPosition = allParticles[neighborIndex].nBestPosition;
 			}
@@ -408,25 +407,25 @@ public class PSO
 		double curBest = allParticles[index].getPBest();
 		double potentialBest = TestFunctions.testFunction(allParticles[index]);
 
-        double[] testDummy = allParticles[index].position;
-        double[] testDummyVel = allParticles[index].velocity;
+		double[] testDummy = allParticles[index].position;
+		double[] testDummyVel = allParticles[index].velocity;
 
-        if (index == 0) {
-            //System.out.println("pbest position array");
-            for (int i = 0; i < testDummy.length; i++ ) {
-                //System.out.print(testDummy[i] + " ");
-            }
-            //System.out.println("end");
+		if (index == 0) {
+			//System.out.println("pbest position array");
+			for (int i = 0; i < testDummy.length; i++ ) {
+				//System.out.print(testDummy[i] + " ");
+			}
+			//System.out.println("end");
 
-            //System.out.println("pbest velocity array");
-            for (int i = 0; i < testDummyVel.length; i++ ) {
-                //System.out.print(testDummyVel[i] + " ");
-            }
-            //System.out.println("end");
+			//System.out.println("pbest velocity array");
+			for (int i = 0; i < testDummyVel.length; i++ ) {
+				//System.out.print(testDummyVel[i] + " ");
+			}
+			//System.out.println("end");
 
-            //System.out.println("curBest: " + curBest);
-            //System.out.println("potentialBest: " + potentialBest);
-        }
+			//System.out.println("curBest: " + curBest);
+			//System.out.println("potentialBest: " + potentialBest);
+		}
 		if(potentialBest < curBest)
 		{
 			// out.println("a pbest was updated");
@@ -436,20 +435,20 @@ public class PSO
 			// out.println(allParticles[index].getPBest());
 			allParticles[index].setPBestPosition(allParticles[index].position);
 
-            if (index == 0) {
-                //System.out.println("UPDATED!");
-                //System.out.println("new pbest: " + allParticles[index].getPBest());
-                //System.out.println("new pbest position: " + allParticles[index].position[0] + allParticles[index].position[1]);
-                //System.out.println();
-            }
+			if (index == 0) {
+				//System.out.println("UPDATED!");
+				//System.out.println("new pbest: " + allParticles[index].getPBest());
+				//System.out.println("new pbest position: " + allParticles[index].position[0] + allParticles[index].position[1]);
+				//System.out.println();
+			}
 			flag = 1;
 		}
 		else
 		{
-            if (index == 0) {
-                //System.out.println("NOT UPDATED!");
-                //System.out.println();
-            }
+			if (index == 0) {
+				//System.out.println("NOT UPDATED!");
+				//System.out.println();
+			}
 			flag = 0;
 		}
 	}
@@ -466,22 +465,22 @@ public class PSO
 			U_2[i] = phi_2 * rand.nextDouble();
 		}
 
-        //System.out.println("U_1: " + U_1[0] + " " + U_1[1]);
-        //System.out.println("U_2: " + U_2[0] + " " + U_2[1]);
-        //System.out.println("pBestPosition: " + particle.pBestPosition[0] + " " + particle.pBestPosition[1]);
-        //System.out.println("position: " + particle.position[0] + " " + particle.position[1]);
+		//System.out.println("U_1: " + U_1[0] + " " + U_1[1]);
+		//System.out.println("U_2: " + U_2[0] + " " + U_2[1]);
+		//System.out.println("pBestPosition: " + particle.pBestPosition[0] + " " + particle.pBestPosition[1]);
+		//System.out.println("position: " + particle.position[0] + " " + particle.position[1]);
 
 		double[] temp1 = product(U_1, sum(particle.pBestPosition, negate(particle.position)));
-        //System.out.println("temp1: " + temp1[0] + " " + temp1[1]);
+		//System.out.println("temp1: " + temp1[0] + " " + temp1[1]);
 		//out.println(Arrays.toString(particle.pBestPosition) + " and " + Arrays.toString(particle.position));
 		//out.println("additional printouts above");
 		double[] temp2 = product(U_2, sum(particle.nBestPosition, negate(particle.position)));
-        //System.out.println("temp2: " + temp2[0] + " " + temp2[1]);
+		//System.out.println("temp2: " + temp2[0] + " " + temp2[1]);
 
 		double[] updatedVelocity = product(chiArray, sum(particle.velocity, sum(temp1, temp2)));
-        //System.out.println("updatedVelocity: " + updatedVelocity[0] + " " + updatedVelocity[1]);
+		//System.out.println("updatedVelocity: " + updatedVelocity[0] + " " + updatedVelocity[1]);
 
-        particle.setVelocity(updatedVelocity);
+		particle.setVelocity(updatedVelocity);
 
 		for(int k = 0; k < particle.velocity.length; k++)
 		{
@@ -499,7 +498,7 @@ public class PSO
 	// updates the position of a particle based on it's current velocity
 	public static void updatePosition(Particle particle)
 	{
-        particle.setPosition(sum(particle.position,particle.velocity));
+		particle.setPosition(sum(particle.position,particle.velocity));
 	}
 
 	// returns an array where each index contains the sum of two values of given arrays
