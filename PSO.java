@@ -9,6 +9,7 @@ public class PSO
 
 	static int flag = 1;
     static int usingRandomFlag = 0;
+    static int usingGlobalSwarm = 0;
 
 	static int dimensions = 30;
 	static double minPos = 16.0;
@@ -114,11 +115,25 @@ public class PSO
                 System.out.println("NEIGHBORHOOD: " + Arrays.deepToString(neighborhoods));
             }
 
-			for (int k = 0; k < numParticles; k++)
-			{
-				//update neighborhood bests
-				updateNBest(k);
-			}
+            if (usingGlobalSwarm == 1) 
+            {
+                updateNBest(0);
+                double globalBest = allParticles[0].getNBest();
+                for(int m = 0; m < numParticles; m++) {
+                    allParticles[m].setNBest(globalBest);
+                }
+            }
+
+
+            else if (usingGlobalSwarm == 0) 
+            {
+                for (int k = 0; k < numParticles; k++)
+                {
+                    //update neighborhood bests
+                    updateNBest(k);
+                }
+            }
+
 		}
 		out.print("Time elapsed: ");
 		out.println(bestFound.getTimeElapsed());
@@ -148,6 +163,7 @@ public class PSO
 			// if global neighborhood
 			neighborhoods = new int[numParticles][numParticles];
 			findNeighborGlobal();
+            usingGlobalSwarm = 1;
 		}
 		else if (topologyString.equals("ri")) {
 			// if ring neighborhood
@@ -212,10 +228,24 @@ public class PSO
 		{
 			updatePBest(k);
 		}
-		for(int k = 0; k < numParticles; k++)
-		{
-			updateNBest(k);
-		}
+
+        if (usingGlobalSwarm == 1) 
+        {
+            updateNBest(0);
+            double globalBest = allParticles[0].getNBest();
+            for(int m = 0; m < numParticles; m++) {
+                allParticles[m].setNBest(globalBest);
+            }
+        }
+        else if (usingGlobalSwarm == 0) 
+        {
+            for(int k = 0; k < numParticles; k++)
+            {
+                updateNBest(k);
+            }
+        }
+
+
 		System.out.println("NEIGHBORHOOD: " + Arrays.deepToString(neighborhoods));
     }
 
@@ -225,7 +255,7 @@ public class PSO
 	{
 		for (int i = 0; i < numParticles; i++) {
 			int[] neighbors = new int[numParticles];
-			for (int j = 0; i < numParticles; j++) {
+			for (int j = 0; j < numParticles; j++) {
 				neighbors[j] = j;
 			}
 			neighborhoods[i] = neighbors;
