@@ -29,7 +29,9 @@ do
 		do
 			for run in $(seq 0 1 19)
 			do
+				#java PSO ${topology[top]} ${numParticles[size]} $iters ${function[func]} $dim
 				java PSO ${topology[top]} ${numParticles[size]} $iters ${function[func]} $dim
+                echo ${topology[top]}
 			done
 		done
 	done
