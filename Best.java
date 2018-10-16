@@ -20,6 +20,7 @@ class Best
         startTime = System.currentTimeMillis();
         endTime = startTime;
         fitnessPerThousand = new double[(int)((iter+1)/1000)];
+        System.out.println("initialized fitness Per Thousand");
     }
 
     // no-argument constructor
@@ -29,6 +30,8 @@ class Best
         fitness = Double.MAX_VALUE;
         startTime = System.currentTimeMillis();
         endTime = startTime;
+        fitnessPerThousand = new double[10];
+        System.out.println("initialized fitness Per Thousand");
     }
 
     public void updatePerThousand(int index)
@@ -84,5 +87,10 @@ class Best
     {
         long diff = endTime-startTime;
         return diff;
+    }
+
+    public double[] getFitnessPerThousand()
+    {
+        return fitnessPerThousand;
     }
 }

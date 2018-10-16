@@ -142,6 +142,19 @@ public class PSO
 		out.println(bestFound.getGen());
 		out.print("Solution found in (milliseconds): ");
 		out.println(bestFound.getSolutionTime());
+
+		ArrayList<String> output = new ArrayList<String>();
+		output.addAll(Arrays.asList(args));
+		output.add(Double.toString(bestFound.getFit()));
+		double[] perThousand = bestFound.getFitnessPerThousand();
+		for(int k = 0; k < perThousand.length; k++)
+			output.add(Double.toString(perThousand[k]));
+		output.add(Integer.toString(bestFound.getGen()));
+		output.add(Long.toString(bestFound.getSolutionTime()));
+		output.add(Long.toString(bestFound.getTimeElapsed()));
+		String finalOutput = String.join(",", output);
+		out.println(finalOutput);
+		appendStringToFile("output.csv",finalOutput);
 	}
 
 	// creates a neighborhood of particles depending on the command line arguments,
@@ -382,17 +395,17 @@ public class PSO
 	public static void updateNBest(int indexParticle)
 	{
 		double curNBest = allParticles[indexParticle].getNBest();
-		System.out.println("curNBest: " + curNBest);
+		// System.out.println("curNBest: " + curNBest);
 		double[] curNBestPosition = allParticles[indexParticle].nBestPosition;
 
 		for (int neighborIndex:neighborhoods[indexParticle])
 		{
 			// double tempNeighborFitness = TestFunctions.testFunction(allParticles[neighborIndex]);
 			double tempNeighborFitness = allParticles[neighborIndex].getPBest();
-			System.out.println("tempNeighborFitness: " + tempNeighborFitness);
+			// System.out.println("tempNeighborFitness: " + tempNeighborFitness);
 			if (tempNeighborFitness < curNBest)
 			{
-				out.println("updated neighbor fitness at index " + neighborIndex);
+				// out.println("updated neighbor fitness at index " + neighborIndex);
 				curNBest = tempNeighborFitness;
 				curNBestPosition = allParticles[neighborIndex].nBestPosition;
 			}
@@ -548,7 +561,7 @@ public class PSO
             out.close(); 
         } 
         catch (IOException e) { 
-            System.out.println("exception occoured" + e); 
+            System.out.println("exception occurred" + e); 
         } 
     } 
 
