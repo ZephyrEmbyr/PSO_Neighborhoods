@@ -98,7 +98,7 @@ public class PSO
 					bestFound.setFit(allParticles[k].getPBest());
 					bestFound.setGen(generation+1);
 					bestFound.setPos(allParticles[k].getPBestPosition());
-					out.println(Arrays.toString(bestFound.getPos()));
+					//out.println(Arrays.toString(bestFound.getPos()));
 				}
 			}
 
@@ -165,7 +165,6 @@ public class PSO
         finalOutput += "\n";
 		out.println(finalOutput);
 
-		System.exit(0);
 		appendStringToFile("output.csv",finalOutput);
 	}
 

@@ -69,7 +69,7 @@ public class TestFunctions
 	{
 		double total = 0.0;
 		for (int i = 0; i < values.length - 1; i++) {
-			total += 100.0 * Math.pow(Math.pow(values[i],2) - values[i+1], 2.0) + Math.pow(values[i] - 1, 2.0);
+			total += 100.0 * Math.pow(values[i+1] - Math.pow(values[i],2.0), 2.0) + Math.pow(values[i] - 1, 2.0);
 		}
 		return total;
 	}

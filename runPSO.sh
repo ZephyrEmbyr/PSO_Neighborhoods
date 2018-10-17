@@ -27,8 +27,11 @@ do
 	do
 		for func in $(seq 0 1 2)
 		do
-			#echo ${topology[top]} ${numParticles[size]} $iters ${function[func]} $dim
-			java PSO ${topology[top]} ${numParticles[size]} $iters ${function[func]} $dim
+			for i in $(seq 1 1 20)
+			do
+				#echo ${topology[top]} ${numParticles[size]} $iters ${function[func]} $dim
+				java PSO ${topology[top]} ${numParticles[size]} $iters ${function[func]} $dim
+			done
 		done
 	done
 done
