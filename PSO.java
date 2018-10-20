@@ -104,6 +104,7 @@ public class PSO
 
 		}
 		
+		// This provides simple outputs to command line
 		out.print("Time elapsed: ");
 		out.println(bestFound.getTimeElapsed());
 		out.print("Best found solution value: ");
@@ -118,6 +119,8 @@ public class PSO
 		out.print("Solution found in (milliseconds): ");
 		out.println(bestFound.getSolutionTime());
 
+
+		// This lets us preprocess and output our data to a .csv file
 		ArrayList<String> output = new ArrayList<String>();
 		output.addAll(Arrays.asList(args));
 		output.add(Double.toString(bestFound.getFit()));

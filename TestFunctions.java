@@ -12,7 +12,8 @@ public class TestFunctions
 	final static int RASTRIGIN_NUM = 3;
 
 	// runs the test function specified by the command line argument and returns
-	// the calculated fitness
+	// the calculated fitness. These test functions are computed using formulas
+	// found on www.sfu.ca, a virtual library of simulation experiments
 	public static double testFunction(Particle particle)
 	{
 		double fitness;
