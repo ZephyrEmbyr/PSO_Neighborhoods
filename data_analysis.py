@@ -36,7 +36,7 @@ for j in range(len(data)//20):
 	tempMedian = [0]*11
 	workingWith = data[j*20]
 	for k in range(5,16):
-		tempMedian[k-5] = [x[k] for x in data[j:j+20]]
+		tempMedian[k-5] = [x[k] for x in data[20*j:20*j+20]]
 		tempMedian[k-5].sort()
 		tempMedian[k-5] = (float(tempMedian[k-5][9])+float(tempMedian[k-5][10]))/2
 	dataMedians.append(workingWith[0:5]+tempMedian)
