@@ -6,7 +6,7 @@ import numpy as np
 data = []
 
 
-with open('output.csv') as csv_file:
+with open('output_swarm.csv') as csv_file:
 	reader = csv.reader(csv_file, delimiter=',')
 	for row in reader:
 		data.append(row[0:19]) # for some reason we have 8 extra blank columns
@@ -98,6 +98,8 @@ for fn in function:
 
 for MedianData in presortedDataMedians[24:]:
     print(MedianData)
+
+sys.exit(0)
 
 def createLabelsAndYData(presortedDataMediansSlice, numIndex):
     labels = []
