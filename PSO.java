@@ -165,7 +165,7 @@ public class PSO
         finalOutput += "\n";
 		out.println(finalOutput);
 
-		appendStringToFile("output.csv",finalOutput);
+		appendStringToFile("output2.csv",finalOutput); // using second output because we don't want to overwrite data
 	}
 
 	// creates a neighborhood of particles depending on the command line arguments,
