@@ -92,3 +92,9 @@ for fn in function:
 			presortedDataMedians = presortedDataMedians + [x for x in dataMedians if x[3] == fn and x[1] == sw and x[0] == top]
 
 # sort order: test function, swarm size, topology
+
+#print data first
+for MedianData in presortedDataMedians:
+    print(MedianData)
+
+#First do rok 
