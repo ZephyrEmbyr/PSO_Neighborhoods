@@ -23,19 +23,19 @@ perthousandfit, solution generation, solution time, time elapsed
 
 dataMeans = []
 for j in range(len(data)//20):
-	tempMean = [0]*12
+	tempMean = [0]*14
 	working = data[20*j]
 	for k in range(20):
 		workingWith = data[20*j+k]
-		tempMean = [float((list(x)[0])+float((list(x)[1]))) for x in zip(tempMean,workingWith[5:17])]
+		tempMean = [float((list(x)[0])+float((list(x)[1]))) for x in zip(tempMean,workingWith[5:19])]
 	tempMean = [x/20 for x in tempMean]
 	dataMeans.append(working[0:5]+tempMean)
 
 dataMedians = []
 for j in range(len(data)//20):
-	tempMedian = [0]*12
+	tempMedian = [0]*14
 	workingWith = data[j*20]
-	for k in range(5,17):
+	for k in range(5,19):
 		tempMedian[k-5] = [x[k] for x in data[20*j:20*j+20]]
 		tempMedian[k-5].sort()
 		tempMedian[k-5] = (float(tempMedian[k-5][9])+float(tempMedian[k-5][10]))/2
