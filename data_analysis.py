@@ -1,6 +1,7 @@
 import csv
 import sys
-
+import matplotlib.pyplot as plt
+import numpy as np
 
 data = []
 
@@ -94,7 +95,62 @@ for fn in function:
 # sort order: test function, swarm size, topology
 
 #print data first
-for MedianData in presortedDataMedians:
+
+for MedianData in presortedDataMedians[24:]:
     print(MedianData)
 
+def createLabelsAndYData(presortedDataMediansSlice, numIndex):
+    labels = []
+    bestMedians = []
+    for MedianData in presortedDataMediansSlice:
+        #labels.append(MedianData[0] + '_' + MedianData[1])
+        labels.append(MedianData[0])
+        bestMedians.append(MedianData[numIndex])
+    return labels, bestMedians
+
+
+def graphRes(labels, bestMedians, title, ylabel, savefileName):
+    print("labels: {}".format(labels))
+    print("bestMedians: {}".format(bestMedians))
+
+    maxY = max(bestMedians)
+    minY = min(bestMedians)
+
+    #One way
+    #plt.rcParams.update({"pgf.rcfonts":False})
+    y_pos = np.arange(len(labels))
+    y_pos1 = y_pos[0:4]
+    y_pos2 = y_pos[4:8]
+    y_pos3 = y_pos[8:12]
+    #y_pos2 = y_pos[5:9]
+    #y_pos3 = y_pos[10:14]
+
+    #plt.bar(y_pos1, bestMedians[0:4], width=1.0, align='center', alpha=0.5, color='blue', edgecolor="black")
+    plt.rcParams.update({"pgf.rcfonts":False})
+    plt.bar(y_pos1, bestMedians[0:4], align='center', alpha=0.5, color='blue', edgecolor="black", label="Swarm Size 16")
+    plt.bar(y_pos2, bestMedians[4:8], align='center', alpha=0.5, color='red', edgecolor="black", label="Swarm Size 30")
+    plt.bar(y_pos3, bestMedians[8:12], align='center', alpha=0.5, color='green', edgecolor="black", label="Swarm Size 49")
+
+    plt.xticks(y_pos, labels, fontsize=16)
+    plt.yticks(fontsize=16)
+    plt.xlabel("Topology and Swarm Size", fontsize=16)
+    plt.title(title,fontsize=16)
+    plt.ylabel(ylabel, fontsize=16)
+    plt.ylim(0, 100)
+    plt.legend()
+    plt.tight_layout()
+    plt.savefig(savefileName + ".png")
+    plt.savefig(savefileName + ".pgf")
+    plt.show()
+
+
 #First do rok 
+title = "Ackley Time vs Topology and Swarm Size"
+ylabel = "Median Solution Time" 
+savefileName = "ack_solution_time"
+labels, bestMedians = createLabelsAndYData(presortedDataMedians[12:24], -2)
+graphRes(labels, bestMedians, title, ylabel, savefileName)
+
+
+
+
