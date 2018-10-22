@@ -299,15 +299,6 @@ class Swarm {
 		double curBest = allParticles[index].getPBest();
 		double potentialBest = TestFunctions.testFunction(allParticles[index]);
 
-		double[] testDummy = allParticles[index].position;
-		double[] testDummyVel = allParticles[index].velocity;
-
-		if (index == 0) {
-			for (int i = 0; i < testDummy.length; i++ ) {
-			}
-			for (int i = 0; i < testDummyVel.length; i++ ) {
-			}
-		}
 		if(potentialBest < curBest)
 		{
 			allParticles[index].setPBest(potentialBest);
@@ -354,6 +345,7 @@ class Swarm {
 	// updates the position of a particle based on it's current velocity
 	public void updatePosition(Particle particle)
 	{
+		//!!!
 		particle.setPosition(sum(particle.position,particle.velocity));
 	}
 
